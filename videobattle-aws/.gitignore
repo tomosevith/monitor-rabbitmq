@@ -1,0 +1,6 @@
+*.tfstate
+*.tfstate.backup
+# Module directory
+.terraform/
+terraform.tfvars
+.env
