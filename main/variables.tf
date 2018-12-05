@@ -37,3 +37,54 @@ variable "web_front_image" {
 variable "web_front_additional_parameters" {
   default = {}
 }
+
+##### RDS INSTANCE
+variable "rds_instance_class" {
+  description = "The instance type of the RDS instance"
+  default     = "db.t2.small"
+}
+
+variable "rds_engine_version" {
+  description = "The engine version to use"
+  default     = "9.6.10-R1"
+}
+
+variable "rds_engine_type" {
+  description = "The database engine to use"
+  default     = "postgresql"
+}
+
+variable "rds_port" {
+  description = "The database engine to use"
+  default     = "5432"
+}
+
+variable "allow_major_version_upgrade" {
+  description = "Indicates that major version upgrades are allowed. Changing this parameter does not result in an outage and the change is asynchronously applied as soon as possible"
+  default     = false
+}
+
+variable "auto_minor_version_upgrade" {
+  description = "Indicates that minor engine upgrades will be applied automatically to the DB instance during the maintenance window"
+  default     = false
+}
+
+variable "backup_retention_period" {
+  description = "The days to retain backups for"
+  default     = 7
+}
+
+variable "rds_allocated_storage" {
+  description = "The days to retain backups for"
+  default     = 10
+}
+
+variable "rds_multi_az" {
+  description = "Specifies if the RDS instance is multi-AZ"
+  default     = false
+}
+
+variable "rds_storage_encrypted" {
+  description = "Specifies whether the DB instance is encrypted"
+  default     = false
+}

@@ -41,7 +41,7 @@ module "web_front_parameters" {
   count      = 11
 
   parameters = {
-    db_host          = "${module.teacherly_rds.this_db_instance_address}"
+    db_host          = "${module.rds.this_db_instance_address}"
     db_database      = "${local.database_name}"
     db_username      = "${local.database_user}"
     db_password      = "${local.database_password}"
