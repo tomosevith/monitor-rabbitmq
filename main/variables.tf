@@ -2,6 +2,10 @@ variable "region" {
   default = "eu-central-1"
 }
 
+variable "short_region" {
+  default = "ec1"
+}
+
 variable "az_count" {
   default = 2
 }
@@ -105,4 +109,8 @@ variable "rds_multi_az" {
 variable "rds_storage_encrypted" {
   description = "Specifies whether the DB instance is encrypted"
   default     = false
+}
+
+variable "domain" {
+  default = "teacherly.io"
 }

@@ -50,7 +50,7 @@ module "web_console_parameters" {
 
     cdn_sl_key       = ""
     minio_secret_key = ""
-    s3_bucket        = "${module.minio_static.s3_bucket_id}"
+    s3_bucket        = ""
   }
 
   tags = {

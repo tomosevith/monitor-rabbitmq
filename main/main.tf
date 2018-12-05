@@ -63,6 +63,12 @@ resource "random_string" "back_jwt_key" {
   upper   = true
 }
 
+resource "random_string" "console_jwt_key" {
+  length  = 32
+  special = false
+  upper   = true
+}
+
 locals {
   name              = "${var.name}-${terraform.env}-${random_string.name.result}-${var.short_region}"
   database_name     = "${random_string.database_prefix.result}${random_string.database_name.result}"
@@ -72,4 +78,6 @@ locals {
   rabbitmq_user     = "${random_string.database_prefix.result}${random_string.rabbitmq_user.result}"
   front_jwt_key     = "${random_string.front_jwt_key.result}"
   back_jwt_key      = "${random_string.back_jwt_key.result}"
+
+  console_jwt_key = "${random_string.console_jwt_key.result}"
 }
