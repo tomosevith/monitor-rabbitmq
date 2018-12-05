@@ -1,0 +1,52 @@
+ [
+    {
+      "volumesFrom": [],
+      "memory": ${memory},
+      "portMappings": [
+        {
+          "containerPort": ${service_port},
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "${log_group_name}",
+              "awslogs-stream-prefix": "${service_name}",
+              "awslogs-region": "${region}"
+          }
+      },
+      "essential": true,
+      "entryPoint": ${entrypoint},
+      "mountPoints": [],
+      "name": "${service_name}",
+      "dockerSecurityOptions": null,
+      "environment": [
+        {
+          "name": "CHAMBER_KMS_KEY_ALIAS",
+          "value": "${kms_key_alias}"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "${region}"
+        }
+      ],
+      "links": null,
+      "workingDirectory": null,
+      "readonlyRootFilesystem": null,
+      "image": "${image_url}",
+      "command": ${command},
+      "user": null,
+      "dockerLabels": null,
+      "cpu": 0,
+      "privileged": null,
+      "memoryReservation": null,
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 16384,
+          "hardLimit": 16384
+        }
+      ]
+    }
+  ]
