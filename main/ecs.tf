@@ -16,7 +16,7 @@ resource "aws_key_pair" "aws-ecs" {
   public_key = "${tls_private_key.aws-ecs.public_key_openssh}"
 }
 
-data "aws_ami" "ecs_ami" {
+data "aws_ami" "ecs-ami" {
   most_recent = true
 
   filter {
@@ -36,7 +36,7 @@ module "ecs_cluster" {
   name              = "${local.name}"
   environment       = "${terraform.env}"
   key_name          = "${aws_key_pair.aws-ecs.key_name}"
-  ami_id            = "${data.aws_ami.ecs_ami.id}"
+  ami_id            = "${data.aws_ami.ecs-ami.id}"
   instance_type     = "${var.ecs_instance_type}"
   asg_min           = "${var.ecs_asg_min}"
   asg_max           = "${var.ecs_asg_max}"
