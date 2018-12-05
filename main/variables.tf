@@ -30,11 +30,29 @@ variable "ecs_asg_desired" {
   default = 1
 }
 
+####### variable fot ecs cluster services 
+
 variable "web_front_image" {
   default = "videobattle.front.web"
 }
 
 variable "web_front_additional_parameters" {
+  default = {}
+}
+
+variable "web_backend_image" {
+  default = "videobattle.backend.web"
+}
+
+variable "web_backend_additional_parameters" {
+  default = {}
+}
+
+variable "web_console_image" {
+  default = "videobattle.console"
+}
+
+variable "web_console_additional_parameters" {
   default = {}
 }
 
