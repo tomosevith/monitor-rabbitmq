@@ -13,7 +13,8 @@ variable "name" {
 variable "cidr" {
   default = "10.0.0.0/16"
 }
-variable "ecs_instance_type"{
+
+variable "ecs_instance_type" {
   default = "t2.small"
 }
 
@@ -27,4 +28,12 @@ variable "ecs_asg_max" {
 
 variable "ecs_asg_desired" {
   default = 1
+}
+
+variable "web_front_image" {
+  default = "videobattle.front.web"
+}
+
+variable "web_front_additional_parameters" {
+  default = {}
 }
