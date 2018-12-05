@@ -112,5 +112,5 @@ variable "rds_storage_encrypted" {
 }
 
 variable "domain" {
-  default = "teacherly.io"
+  default = "videobattle.xyz"
 }
