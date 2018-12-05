@@ -13,7 +13,7 @@ resource "tls_private_key" "aws-ecs" {
 
 resource "aws_key_pair" "aws-ecs" {
   key_name   = "ecs-${local.name}"
-  public_key = "${tls_private_key.ecs.public_key_openssh}"
+  public_key = "${tls_private_key.aws-ecs.public_key_openssh}"
 }
 
 data "aws_ami" "ecs_ami" {
@@ -35,7 +35,7 @@ module "ecs_cluster" {
 
   name              = "${local.name}"
   environment       = "${terraform.env}"
-  key_name          = "${aws_key_pair.ecs.key_name}"
+  key_name          = "${aws_key_pair.aws-ecs.key_name}"
   ami_id            = "${data.aws_ami.ecs_ami.id}"
   instance_type     = "${var.ecs_instance_type}"
   asg_min           = "${var.ecs_asg_min}"
@@ -44,7 +44,7 @@ module "ecs_cluster" {
   public_ip         = false
   ebs_optimized     = false
   security_group_id = "${module.security_groups.ecs_id}"
-  subnet_id         = "${module.aws-vpc.private_subnets}"
+  subnet_id         = "${module.vpc.private_subnets}"
   aws_asg_name      = "ecs-${local.name}"
-  user_data         = "${data.template_file.ecs.rendered}"
+  user_data         = "${data.template_file.aws-ecs.rendered}"
 }
