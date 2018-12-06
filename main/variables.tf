@@ -34,6 +34,11 @@ variable "ecs_asg_desired" {
   default = 1
 }
 
+variable "ssl_certificate_arn" {
+  default = "arn:aws:acm:eu-central-1:132867155609:certificate/632af947-175e-4725-8bd9-a49ed2a01553"
+}
+
+
 ####### variable fot ecs cluster services 
 
 variable "web_front_image" {
@@ -127,11 +132,11 @@ variable "enable_bastion" {
 ##### CLOUDFORMATION VIDEO
 
 variable "cf_ssl_certificate_arn" {
-  default = "arn:aws:acm:eu-central-1:132867155609:certificate/632af947-175e-4725-8bd9-a49ed2a01553"
+  default = "arn:aws:acm:us-east-1:132867155609:certificate/e8ceeb37-b63d-4938-9100-6492865252a2"
 }
 
 variable "allowed_origins" {
-  default = ["*.content.playandplay.ru", "https://content.playandplay.ru"]
+  default = ["*.playandplay.ru", "https://content.playandplay.ru"]
 }
 
 variable "cloudfront_uploader_arn" {
