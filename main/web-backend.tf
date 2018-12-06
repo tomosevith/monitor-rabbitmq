@@ -38,7 +38,7 @@ module "web_backend_parameters" {
 
   name       = "backend-${local.name}"
   kms_key_id = "${module.web_backend_ssm_role.kms_key_id}"
-  count      = 9
+  count      = 6
 
   parameters = {
     db_host          = "${module.rds.this_db_instance_address}"
@@ -47,9 +47,9 @@ module "web_backend_parameters" {
     db_password      = "${local.database_password}"
     app_key          = "${random_string.app_key.result}"
     back_jwt_key     = "${local.back_jwt_key}"
-    cdn_sl_key       = ""
-    minio_secret_key = ""
-    s3_bucket        = ""
+    #cdn_sl_key       = ""
+    #minio_secret_key = ""
+    #s3_bucket        = ""
   }
 
   tags = {

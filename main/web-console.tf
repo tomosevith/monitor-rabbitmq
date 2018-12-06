@@ -38,7 +38,7 @@ module "web_console_parameters" {
 
   name       = "console-${local.name}"
   kms_key_id = "${module.web_console_ssm_role.kms_key_id}"
-  count      = 9
+  count      = 6
 
   parameters = {
     db_host         = "${module.rds.this_db_instance_address}"
@@ -48,9 +48,9 @@ module "web_console_parameters" {
     app_key         = "${random_string.app_key.result}"
     console_jwt_key = "${local.console_jwt_key}"
 
-    cdn_sl_key       = ""
-    minio_secret_key = ""
-    s3_bucket        = ""
+    #cdn_sl_key       = ""
+    #minio_secret_key = ""
+    #s3_bucket        = ""
   }
 
   tags = {

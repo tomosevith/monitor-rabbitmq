@@ -38,7 +38,7 @@ module "web_front_parameters" {
 
   name       = "front-${local.name}"
   kms_key_id = "${module.web_front_ssm_role.kms_key_id}"
-  count      = 11
+  count      = 8
 
   parameters = {
     db_host          = "${module.rds.this_db_instance_address}"
@@ -49,9 +49,9 @@ module "web_front_parameters" {
     front_jwt_key    = "${local.front_jwt_key}"
     rabbitmq_user    = "${local.rabbitmq_user}"
     rabbitmq_pwd     = "${local.rabbitmq_pwd}"
-    cdn_sl_key       = ""
-    minio_secret_key = ""
-    s3_bucket        = ""
+    #cdn_sl_key       = ""
+    #minio_secret_key = ""
+    #s3_bucket        = ""
   }
 
   tags = {
