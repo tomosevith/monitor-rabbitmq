@@ -114,3 +114,8 @@ variable "rds_storage_encrypted" {
 variable "domain" {
   default = "videobattle.xyz"
 }
+
+### Bastion Host
+variable "enable_bastion" {
+  default = "false"
+}
