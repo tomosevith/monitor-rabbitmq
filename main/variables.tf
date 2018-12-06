@@ -112,10 +112,28 @@ variable "rds_storage_encrypted" {
 }
 
 variable "domain" {
-  default = "videobattle.xyz"
+  default = "beta.playandplay.ru"
+}
+
+variable "domain_content" {
+  default = "content.playandplay.ru"
 }
 
 ### Bastion Host
 variable "enable_bastion" {
   default = "false"
+}
+
+##### CLOUDFORMATION VIDEO
+
+variable "cf_ssl_certificate_arn" {
+  default = "arn:aws:acm:eu-central-1:132867155609:certificate/632af947-175e-4725-8bd9-a49ed2a01553"
+}
+
+variable "allowed_origins" {
+  default = ["*.content.playandplay.ru", "https://content.playandplay.ru"]
+}
+
+variable "cloudfront_uploader_arn" {
+  default = "arn:aws:iam::132867155609:user/gitlab-ci"
 }
