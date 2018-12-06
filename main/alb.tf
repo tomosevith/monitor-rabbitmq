@@ -52,7 +52,7 @@ module "web_front_alb_routes" {
 module "web_backend_alb_routes" {
   source = "../terraform-modules/aws-alb-hostname-routes"
 
-  priority           = 50
+  priority           = 60
   http_listener_arn  = "${aws_alb_listener.alb_listener_http.arn}"
   https_listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
   target_group_arn   = "${module.web_backend.target_group_arn}"

@@ -68,12 +68,12 @@ variable "rds_instance_class" {
 
 variable "rds_engine_version" {
   description = "The engine version to use"
-  default     = "9.6.10-R1"
+  default     = "9.6.10"
 }
 
 variable "rds_engine_type" {
   description = "The database engine to use"
-  default     = "postgresql"
+  default     = "postgres"
 }
 
 variable "rds_port" {
