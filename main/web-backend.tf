@@ -4,31 +4,31 @@ module "web_backend" {
   region      = "${var.region}"
   environment = "${terraform.env}"
 
-  service_name         = "web-backend-${local.name}"
+  service_name         = "backend-${local.name}"
   service_port         = "80"
   service_memory       = 480
   desired_count        = 1
   service_check_path   = "/"
   service_response     = "200"
   service_cmd          = "dotnet,VideoBattle.Back.Web.dll"
-  service_entrypoint   = "/usr/local/bin/chamber,exec,web-backend-${local.name},--"
+  service_entrypoint   = "/usr/local/bin/chamber,exec,backend-${local.name},--"
   cluster_id           = "${module.ecs_cluster.cluster_id}"
   cluster_name         = "${module.ecs_cluster.cluster_name}"
   task_template        = "${file("${path.module}/task-definitions/task-defenition.json")}"
   image_url            = "${var.web_backend_image}"
-  fqdn                 = "web-backend-${terraform.env}.${var.domain}"
+  fqdn                 = "backend-${terraform.env}.${var.domain}"
   log_group_name       = "${module.ecs_cluster.log_group_name}"
   vpc_id               = "${module.vpc.vpc_id}"
   deregistration_delay = 60
 
-  kms_key_alias = "web-backend-${local.name}"
+  kms_key_alias = "backend-${local.name}"
   task_role_arn = "${module.web_backend_ssm_role.role_arn}"
 }
 
 module "web_backend_ssm_role" {
   source = "../terraform-modules/aws-parameter-store"
 
-  name        = "web-backend-${local.name}"
+  name        = "backend-${local.name}"
   environment = "${terraform.workspace}"
   region      = "${var.region}"
 }
@@ -36,7 +36,7 @@ module "web_backend_ssm_role" {
 module "web_backend_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  name       = "web-backend-${local.name}"
+  name       = "backend-${local.name}"
   kms_key_id = "${module.web_backend_ssm_role.kms_key_id}"
   count      = 9
 
@@ -53,7 +53,7 @@ module "web_backend_parameters" {
   }
 
   tags = {
-    Name        = "web-backend-${local.name}"
+    Name        = "backend-${local.name}"
     Environment = "${terraform.env}"
   }
 }
@@ -61,14 +61,14 @@ module "web_backend_parameters" {
 module "web_backend_additional_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  name       = "web-backend-${local.name}"
+  name       = "backend-${local.name}"
   kms_key_id = "${module.web_backend_ssm_role.kms_key_id}"
   count      = "${length(var.web_backend_additional_parameters)}"
 
   parameters = "${var.web_backend_additional_parameters}"
 
   tags = {
-    Name        = "web-backend-${local.name}"
+    Name        = "backend-${local.name}"
     Environment = "${terraform.env}"
   }
 }

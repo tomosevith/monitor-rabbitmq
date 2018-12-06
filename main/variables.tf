@@ -11,7 +11,7 @@ variable "az_count" {
 }
 
 variable "name" {
-  default = "videobattle"
+  default = "vb"
 }
 
 variable "cidr" {

@@ -4,31 +4,31 @@ module "web_console" {
   region      = "${var.region}"
   environment = "${terraform.env}"
 
-  service_name         = "web-console-${local.name}"
+  service_name         = "console-${local.name}"
   service_port         = "80"
   service_memory       = 300
   desired_count        = 1
   service_check_path   = "/"
   service_response     = "200"
   service_cmd          = "dotnet,VideoBattle.Console.dll"
-  service_entrypoint   = "/usr/local/bin/chamber,exec,web-console-${local.name},--"
+  service_entrypoint   = "/usr/local/bin/chamber,exec,console-${local.name},--"
   cluster_id           = "${module.ecs_cluster.cluster_id}"
   cluster_name         = "${module.ecs_cluster.cluster_name}"
   task_template        = "${file("${path.module}/task-definitions/task-defenition.json")}"
   image_url            = "${var.web_console_image}"
-  fqdn                 = "web-console-${terraform.env}.${var.domain}"
+  fqdn                 = "console-${terraform.env}.${var.domain}"
   log_group_name       = "${module.ecs_cluster.log_group_name}"
   vpc_id               = "${module.vpc.vpc_id}"
   deregistration_delay = 60
 
-  kms_key_alias = "web-console-${local.name}"
+  kms_key_alias = "console-${local.name}"
   task_role_arn = "${module.web_console_ssm_role.role_arn}"
 }
 
 module "web_console_ssm_role" {
   source = "../terraform-modules/aws-parameter-store"
 
-  name        = "web-console-${local.name}"
+  name        = "console-${local.name}"
   environment = "${terraform.workspace}"
   region      = "${var.region}"
 }
@@ -36,7 +36,7 @@ module "web_console_ssm_role" {
 module "web_console_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  name       = "web-console-${local.name}"
+  name       = "console-${local.name}"
   kms_key_id = "${module.web_console_ssm_role.kms_key_id}"
   count      = 9
 
@@ -54,7 +54,7 @@ module "web_console_parameters" {
   }
 
   tags = {
-    Name        = "web-console-${local.name}"
+    Name        = "console-${local.name}"
     Environment = "${terraform.env}"
   }
 }
@@ -62,14 +62,14 @@ module "web_console_parameters" {
 module "web_console_additional_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  name       = "web-console-${local.name}"
+  name       = "console-${local.name}"
   kms_key_id = "${module.web_console_ssm_role.kms_key_id}"
   count      = "${length(var.web_console_additional_parameters)}"
 
   parameters = "${var.web_console_additional_parameters}"
 
   tags = {
-    Name        = "web-console-${local.name}"
+    Name        = "console-${local.name}"
     Environment = "${terraform.env}"
   }
 }
