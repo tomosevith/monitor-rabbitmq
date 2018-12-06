@@ -33,23 +33,13 @@ module "rds" {
   # DB subnet group
   subnet_ids = ["${module.vpc.database_subnets}"]
   # DB parameter group
-  family = "postgresql9.6"
+  family = "postgres9.6"
   # DB option group
   major_engine_version = "9.6"
   # Snapshot name upon DB deletion
   final_snapshot_identifier = "${local.name}"
   # Database Deletion Protection
   deletion_protection = false
-  parameters = [
-    {
-      name  = "character_set_client"
-      value = "utf8"
-    },
-    {
-      name  = "character_set_server"
-      value = "utf8"
-    },
-  ]
   tags = {
     Name        = "${local.name}"
     Environment = "${terraform.env}"
