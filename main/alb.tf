@@ -18,7 +18,7 @@ resource "aws_alb_listener" "alb_listener_https" {
   port              = "443"
   protocol          = "HTTPS"
   ssl_policy        = "ELBSecurityPolicy-2015-05"
-  #certificate_arn   = "${var.ssl_certificate_arn}"
+  certificate_arn   = "${var.ssl_certificate_arn}"
 
   default_action {
     target_group_arn = "${module.web_front.target_group_arn}"
@@ -46,7 +46,7 @@ module "web_front_alb_routes" {
   http_listener_arn  = "${aws_alb_listener.alb_listener_http.arn}"
   https_listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
   target_group_arn   = "${module.web_front.target_group_arn}"
-  service_hosts      = ["web-front-${terraform.env}.${var.domain}", "web-front.${var.domain}", "${var.domain}"]
+  service_hosts      = ["front-${terraform.env}.${var.domain}", "front.${var.domain}", "${var.domain}"]
 }
 
 module "web_backend_alb_routes" {
@@ -56,7 +56,7 @@ module "web_backend_alb_routes" {
   http_listener_arn  = "${aws_alb_listener.alb_listener_http.arn}"
   https_listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
   target_group_arn   = "${module.web_backend.target_group_arn}"
-  service_hosts      = ["web-backend-${terraform.env}.${var.domain}", "web-backend.${var.domain}"]
+  service_hosts      = ["backend-${terraform.env}.${var.domain}", "backend.${var.domain}"]
 }
 
 
@@ -67,7 +67,7 @@ module "web_console_alb_routes" {
   http_listener_arn  = "${aws_alb_listener.alb_listener_http.arn}"
   https_listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
   target_group_arn   = "${module.web_console.target_group_arn}"
-  service_hosts      = ["web-console-${terraform.env}.${var.domain}", "web-console.${var.domain}"]
+  service_hosts      = ["console-${terraform.env}.${var.domain}", "console.${var.domain}"]
 }
 /*
 resource "aws_cloudwatch_metric_alarm" "alb_request_count_low" {

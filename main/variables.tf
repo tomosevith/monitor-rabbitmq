@@ -1,3 +1,4 @@
+###### COMMON VARIABLES
 variable "region" {
   default = "eu-central-1"
 }
@@ -38,6 +39,9 @@ variable "ssl_certificate_arn" {
   default = "arn:aws:acm:eu-central-1:132867155609:certificate/632af947-175e-4725-8bd9-a49ed2a01553"
 }
 
+variable "zone_id" {
+  default = "Z89Q1R238KKU8"
+}
 
 ####### variable fot ecs cluster services 
 
