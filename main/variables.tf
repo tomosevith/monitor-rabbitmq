@@ -15,6 +15,12 @@ variable "name" {
   default = "vb"
 }
 
+variable "aws_asg_name" {}
+
+variable "converts_instance_type" {
+  default = "t2.small"
+}
+
 variable "cidr" {
   default = "10.0.0.0/16"
 }
