@@ -2,6 +2,7 @@ data "template_file" "task_definition" {
   template = "${var.task_template}"
 
   vars {
+    name           = "${var.name}"
     image_url      = "${var.image_url}"
     service_name   = "${var.service_name}"
     service_port   = "${var.service_port}"

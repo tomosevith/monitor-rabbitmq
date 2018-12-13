@@ -24,19 +24,27 @@
       "environment": [
         {
           "name": "SSM_PROJECT_NAME",
-          "value": "${ssm_project_name}"
+          "value": "${name}"
         },
         {
           "name": "SSM_SERVICE_NAME",
-          "value": "${ssm_service_name}"
+          "value": "${service_name}"
         },
         {
           "name": "USE_AWS_PARAMETER_STORE",
-          "value": "${use_aws_parameter_store}"
+          "value": "1"
+        },
+        {
+          "name": "AWS_DEFAULT_REGION",
+          "value": "${region}"
         },
         {
           "name": "AWS_REGION",
           "value": "${region}"
+        },
+        {
+          "name": "KMS_KEY_ALIAS",
+          "value": "${kms_key_alias}"
         }
       ],
       "links": null,

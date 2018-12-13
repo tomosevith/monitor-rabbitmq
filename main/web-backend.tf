@@ -1,9 +1,9 @@
 module "web_backend" {
   source = "../terraform-modules/aws-ecs-alb-service"
 
-  region      = "${var.region}"
-  environment = "${terraform.env}"
-
+  region               = "${var.region}"
+  environment          = "${terraform.env}"
+  name                 = "${var.name}"
   service_name         = "backend-${local.name}"
   service_port         = "80"
   service_memory       = 480
@@ -20,9 +20,6 @@ module "web_backend" {
   log_group_name       = "${module.ecs_cluster.log_group_name}"
   vpc_id               = "${module.vpc.vpc_id}"
   deregistration_delay = 60
-  use_aws_parameter_store = 1
-  ssm_service_name = "backend"
-  ssm_project_name = "${local.name}"
 
   kms_key_alias = "backend-${local.name}"
   task_role_arn = "${module.web_backend_ssm_role.role_arn}"

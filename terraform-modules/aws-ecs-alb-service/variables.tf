@@ -2,6 +2,8 @@ variable "environment" {
   default = ""
 }
 
+variable "name" {}
+
 variable "region" {}
 
 variable "alb_arn_suffix" {
