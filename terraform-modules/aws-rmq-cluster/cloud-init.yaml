@@ -1,0 +1,49 @@
+#cloud-config
+write_files:
+  - path: /root/conf/enabled_plugins
+    content: |
+        [rabbitmq_management,rabbitmq_management_agent,rabbitmq_mqtt,rabbitmq_shovel,rabbitmq_shovel_management,rabbitmq_web_dispatch,rabbitmq_peer_discovery_aws].
+
+  - path: /root/conf/rabbitmq.conf
+    content: |
+        cluster_formation.peer_discovery_backend = rabbit_peer_discovery_aws
+        cluster_formation.aws.region = ${region}
+        cluster_formation.aws.use_autoscaling_group = true
+        tcp_listen_options.backlog = 1024
+        tcp_listen_options.nodelay = true
+        tcp_listen_options.linger.on = true
+        tcp_listen_options.linger.timeout = 0
+        tcp_listen_options.sndbuf = 196608
+        tcp_listen_options.recbuf = 196608
+
+  - path: /root/configure.sh
+    content: |
+        #!/usr/bin/env bash
+        echo 'net.core.somaxconn = 4096' >> /etc/sysctl.conf
+        echo 'vm.swappiness=0' >> /etc/sysctl.conf
+        echo 'net.ipv4.tcp_keepalive_time = 600' >> /etc/sysctl.conf
+        echo 'net.ipv4.tcp_keepalive_intvl = 60' >> /etc/sysctl.conf
+        echo 'net.ipv4.tcp_keepalive_probes = 20' >> /etc/sysctl.conf
+        sysctl -p /etc/sysctl.conf
+        docker exec rabbitmq rabbitmqctl add_user admin ${admin_password}
+        docker exec rabbitmq rabbitmqctl set_user_tags admin administrator
+        docker exec rabbitmq rabbitmqctl add_user rabbit ${rabbit_password}
+        docker exec rabbitmq rabbitmqctl add_vhost /
+        docker exec rabbitmq rabbitmqctl set_policy -p / ha-three "^" '{"ha-mode":"exactly", "ha-params":${sync_node_count}, "ha-sync-mode":"automatic", "message-ttl":${message_timeout}, "expires":${message_timeout}}'
+        docker exec rabbitmq rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
+        docker exec rabbitmq rabbitmqctl set_permissions -p / rabbit ".*" ".*" ".*"
+        docker exec rabbitmq rabbitmqctl delete_user guest
+
+runcmd:
+  - yum update -y
+  - yum install -y docker jq
+  - service docker start
+  - chkconfig docker on
+  - usermod -a -G docker ec2-user
+  - hostname $HOSTNAME.ec2.internal
+  - docker run -d --restart=always --name rabbitmq --ulimit nofile=262144:262144 --net=host -e RABBITMQ_ERLANG_COOKIE='${secret_cookie}' -e RABBITMQ_USE_LONGNAME=true -v /root/data:/var/lib/rabbitmq -v /root/conf/:/etc/rabbitmq -v /root/bin:/tmp/bin rabbitmq:3-management
+  - sleep 30
+  - bash /root/configure.sh
+  - docker run --restart=always -d --name rabbitmq-exporter --net=container:rabbitmq -e RABBIT_CAPABILITIES=bert,no_sort -e PUBLISH_PORT=9419 -e RABBIT_USER=admin -e RABBIT_PASSWORD=${admin_password} kbudde/rabbitmq-exporter
+  - docker run -d --restart=always --network=host --name=nodeexporter --user=root --privileged=true -v /proc:/host/proc:ro -v /sys:/host/sys:ro -v /:/rootfs:ro prom/node-exporter:v0.16.0 --path.procfs=/host/proc --path.sysfs=/host/sys --collector.filesystem.ignored-mount-points="^/\(sys|proc|dev|host|etc\)\($$|/\)"
+  - docker run -d --restart=always --network=host --name=cadvisor -v /:/rootfs:ro -v /var/run:/var/run:rw -v /sys:/sys:ro -v /var/lib/docker/:/var/lib/docker:ro  -v /cgroup:/sys/fs/cgroup:ro google/cadvisor:v0.30.0
