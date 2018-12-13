@@ -40,7 +40,7 @@ runcmd:
   - service docker start
   - chkconfig docker on
   - usermod -a -G docker ec2-user
-  - hostname $HOSTNAME.ec2.internal
+  - hostname $HOSTNAME.${region}.compute.internal
   - docker run -d --restart=always --name rabbitmq --ulimit nofile=262144:262144 --net=host -e RABBITMQ_ERLANG_COOKIE='${secret_cookie}' -e RABBITMQ_USE_LONGNAME=true -v /root/data:/var/lib/rabbitmq -v /root/conf/:/etc/rabbitmq -v /root/bin:/tmp/bin rabbitmq:3-management
   - sleep 60
   - bash /root/configure.sh

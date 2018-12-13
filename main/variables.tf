@@ -171,7 +171,7 @@ variable "cloudfront_uploader_arn" {
 }
 
 variable "rmq_instance_type" {
-  default = "t2.micro"
+  default = "t2.small"
 }
 
 variable "allowed_ips" {
