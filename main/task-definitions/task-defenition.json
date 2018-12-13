@@ -23,8 +23,16 @@
       "dockerSecurityOptions": null,
       "environment": [
         {
-          "name": "CHAMBER_KMS_KEY_ALIAS",
-          "value": "${kms_key_alias}"
+          "name": "SSM_PROJECT_NAME",
+          "value": "${ssm_project_name}"
+        },
+        {
+          "name": "SSM_SERVICE_NAME",
+          "value": "${ssm_service_name}"
+        },
+        {
+          "name": "USE_AWS_PARAMETER_STORE",
+          "value": "${use_aws_parameter_store}"
         },
         {
           "name": "AWS_REGION",

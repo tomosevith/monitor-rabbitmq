@@ -20,6 +20,9 @@ module "web_console" {
   log_group_name       = "${module.ecs_cluster.log_group_name}"
   vpc_id               = "${module.vpc.vpc_id}"
   deregistration_delay = 60
+  use_aws_parameter_store = 1
+  ssm_service_name = "console"
+  ssm_project_name = "${local.name}"
 
   kms_key_alias = "console-${local.name}"
   task_role_arn = "${module.web_console_ssm_role.role_arn}"

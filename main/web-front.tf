@@ -20,6 +20,8 @@ module "web_front" {
   log_group_name       = "${module.ecs_cluster.log_group_name}"
   vpc_id               = "${module.vpc.vpc_id}"
   deregistration_delay = 60
+  use_aws_parameter_store = 1
+
 
   kms_key_alias = "front-${local.name}"
   task_role_arn = "${module.web_front_ssm_role.role_arn}"
