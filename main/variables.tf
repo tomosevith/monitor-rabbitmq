@@ -15,15 +15,36 @@ variable "name" {
   default = "vb"
 }
 
-variable "aws_asg_name" {}
+## CONVERTERS
+variable "aws_asg_name" {
+  default = "asg"
+}
 
-variable "converts_instance_type" {
+variable "converters_instance_type" {
   default = "t2.small"
 }
+
+variable "converters_asg_min" {
+  default = 1
+}
+
+variable "converters_asg_max" {
+  default = 1
+}
+
+variable "converters_asg_desired" {
+  default = 1
+}
+
+# variable "subnet_id" {
+#   type = "list"
+# }
 
 variable "cidr" {
   default = "10.0.0.0/16"
 }
+
+#### ECS
 
 variable "ecs_instance_type" {
   default = "t2.small"
