@@ -36,10 +36,6 @@ variable "converters_asg_desired" {
   default = 1
 }
 
-# variable "subnet_id" {
-#   type = "list"
-# }
-
 variable "cidr" {
   default = "10.0.0.0/16"
 }

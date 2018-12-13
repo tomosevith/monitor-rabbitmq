@@ -36,19 +36,12 @@ data "aws_ami" "amazon_linux" {
   }
 }
 
-# resource "aws_iam_instance_profile" "converterst_instance" {
-#   name = "converters-${local.name}"
-#   role = "${aws_iam_role.converters_instance.name}"
-# }
-
 resource "aws_launch_configuration" "converters" {
-  security_group_id = "${module.security_groups.converters_id}"
-  key_name          = "${aws_key_pair.aws_converters.key_name}"
-  name_prefix       = "${var.aws_asg_name}"
-  image_id          = "${data.aws_ami.amazon_linux.id}"
-  instance_type     = "${var.converters_instance_type}"
-
-  #   iam_instance_profile        = "${aws_iam_instance_profile.amazon_linux.name}"
+  security_groups             = ["${module.security_groups.converters_id}"]
+  key_name                    = "${aws_key_pair.aws_converters.key_name}"
+  name_prefix                 = "${var.aws_asg_name}"
+  image_id                    = "${data.aws_ami.amazon_linux.id}"
+  instance_type               = "${var.converters_instance_type}"
   associate_public_ip_address = false
   ebs_optimized               = false
   user_data                   = "${data.template_file.aws_converters.rendered}"
