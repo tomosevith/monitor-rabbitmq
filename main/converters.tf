@@ -30,7 +30,6 @@ data "aws_ami" "converters_ami" {
   }
 }
 
-
 resource "aws_launch_configuration" "converters" {
   security_groups             = ["${module.security_groups.converters_id}"]
   key_name                    = "${aws_key_pair.aws_converters.key_name}"
