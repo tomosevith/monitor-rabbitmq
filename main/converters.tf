@@ -16,31 +16,26 @@ resource "aws_key_pair" "aws_converters" {
   public_key = "${tls_private_key.aws_converters.public_key_openssh}"
 }
 
-data "aws_ami" "amazon_linux" {
+data "aws_ami" "converters_ami" {
   most_recent = true
 
   filter {
-    name = "name"
-
-    values = [
-      "amzn-ami-hvm-*-x86_64-gp2",
-    ]
+    name   = "owner-alias"
+    values = ["amazon"]
   }
 
   filter {
-    name = "owner-alias"
-
-    values = [
-      "amazon",
-    ]
+    name   = "name"
+    values = ["amzn-ami-*-amazon-ecs-optimized*"]
   }
 }
+
 
 resource "aws_launch_configuration" "converters" {
   security_groups             = ["${module.security_groups.converters_id}"]
   key_name                    = "${aws_key_pair.aws_converters.key_name}"
   name_prefix                 = "${var.aws_asg_name}"
-  image_id                    = "${data.aws_ami.amazon_linux.id}"
+  image_id                    = "${data.aws_ami.converters_ami.id}"
   instance_type               = "${var.converters_instance_type}"
   associate_public_ip_address = false
   ebs_optimized               = false
