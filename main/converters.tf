@@ -31,9 +31,9 @@ data "aws_ami" "converters_ami" {
 }
 
 resource "aws_launch_configuration" "converters" {
-  security_groups             = ["${module.security_groups.converters_id}"]
+  security_groups             = ["${module.security_groups.converters_id}", "${module.security_groups.ssh_id}"]
   key_name                    = "${aws_key_pair.aws_converters.key_name}"
-  name_prefix                 = "${var.aws_asg_name}"
+  name_prefix                 = "converters-${local.name}"
   image_id                    = "${data.aws_ami.converters_ami.id}"
   instance_type               = "${var.converters_instance_type}"
   associate_public_ip_address = false
