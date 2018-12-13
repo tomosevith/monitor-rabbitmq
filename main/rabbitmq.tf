@@ -9,13 +9,13 @@ resource "aws_key_pair" "aws_rmq" {
 }
 
 resource "random_string" "rmq_admin_password" {
-  length  = 32
+  length  = 20
   special = false
   upper   = true
 }
 
 resource "random_string" "rmq_password" {
-  length  = 32
+  length  = 20
   special = false
   upper   = true
 

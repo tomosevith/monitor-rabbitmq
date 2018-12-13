@@ -42,7 +42,7 @@ runcmd:
   - usermod -a -G docker ec2-user
   - hostname $HOSTNAME.ec2.internal
   - docker run -d --restart=always --name rabbitmq --ulimit nofile=262144:262144 --net=host -e RABBITMQ_ERLANG_COOKIE='${secret_cookie}' -e RABBITMQ_USE_LONGNAME=true -v /root/data:/var/lib/rabbitmq -v /root/conf/:/etc/rabbitmq -v /root/bin:/tmp/bin rabbitmq:3-management
-  - sleep 30
+  - sleep 60
   - bash /root/configure.sh
   - docker run --restart=always -d --name rabbitmq-exporter --net=container:rabbitmq -e RABBIT_CAPABILITIES=bert,no_sort -e PUBLISH_PORT=9419 -e RABBIT_USER=admin -e RABBIT_PASSWORD=${admin_password} kbudde/rabbitmq-exporter
   - docker run -d --restart=always --network=host --name=nodeexporter --user=root --privileged=true -v /proc:/host/proc:ro -v /sys:/host/sys:ro -v /:/rootfs:ro prom/node-exporter:v0.16.0 --path.procfs=/host/proc --path.sysfs=/host/sys --collector.filesystem.ignored-mount-points="^/\(sys|proc|dev|host|etc\)\($$|/\)"
