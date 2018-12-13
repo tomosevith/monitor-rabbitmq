@@ -41,14 +41,15 @@ module "web_front_parameters" {
   count      = 8
 
   parameters = {
-    db_host          = "${module.rds.this_db_instance_address}"
-    db_database      = "${local.database_name}"
-    db_username      = "${local.database_user}"
-    db_password      = "${local.database_password}"
-    app_key          = "${random_string.app_key.result}"
-    front_jwt_key    = "${local.front_jwt_key}"
-    rabbitmq_user    = "${local.rabbitmq_user}"
-    rabbitmq_pwd     = "${local.rabbitmq_pwd}"
+    db_host       = "${module.rds.this_db_instance_address}"
+    db_database   = "${local.database_name}"
+    db_username   = "${local.database_user}"
+    db_password   = "${local.database_password}"
+    app_key       = "${random_string.app_key.result}"
+    front_jwt_key = "${local.front_jwt_key}"
+    rabbitmq_user = "${local.rabbitmq_user}"
+    rabbitmq_pwd  = "${local.rabbitmq_pwd}"
+
     #cdn_sl_key       = ""
     #minio_secret_key = ""
     #s3_bucket        = ""
