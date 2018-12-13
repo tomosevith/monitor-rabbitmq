@@ -146,3 +146,11 @@ variable "allowed_origins" {
 variable "cloudfront_uploader_arn" {
   default = "arn:aws:iam::132867155609:user/gitlab-ci"
 }
+
+variable "rmq_instance_type" {
+  default = "t2.micro"
+}
+
+variable "allowed_ips" {
+  default = ["92.245.100.114/32"]
+}

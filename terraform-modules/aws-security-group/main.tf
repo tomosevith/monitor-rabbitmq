@@ -103,6 +103,20 @@ resource "aws_security_group" "rmq_elb_security_group" {
     ]
   }
 
+  ingress {
+    protocol    = "tcp"
+    from_port   = 5672
+    to_port     = 5672
+    cidr_blocks = ["${var.allowed_ips}"]
+  }
+
+  ingress {
+    protocol    = "tcp"
+    from_port   = 443
+    to_port     = 443
+    cidr_blocks = ["${var.allowed_ips}"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -158,7 +172,7 @@ resource "aws_security_group" "ssh_security_group" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["92.245.100.114/32"]
+    cidr_blocks = ["${var.allowed_ips}"]
   }
 
   egress {
