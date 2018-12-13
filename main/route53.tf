@@ -10,6 +10,7 @@ resource "aws_route53_record" "web_backend" {
     evaluate_target_health = false
   }
 }
+
 resource "aws_route53_record" "web_front" {
   name = "front-${terraform.env}.${var.domain}"
 

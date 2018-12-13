@@ -41,12 +41,13 @@ module "web_backend_parameters" {
   count      = 6
 
   parameters = {
-    db_host          = "${module.rds.this_db_instance_address}"
-    db_database      = "${local.database_name}"
-    db_username      = "${local.database_user}"
-    db_password      = "${local.database_password}"
-    app_key          = "${random_string.app_key.result}"
-    back_jwt_key     = "${local.back_jwt_key}"
+    db_host      = "${module.rds.this_db_instance_address}"
+    db_database  = "${local.database_name}"
+    db_username  = "${local.database_user}"
+    db_password  = "${local.database_password}"
+    app_key      = "${random_string.app_key.result}"
+    back_jwt_key = "${local.back_jwt_key}"
+
     #cdn_sl_key       = ""
     #minio_secret_key = ""
     #s3_bucket        = ""

@@ -59,7 +59,6 @@ module "web_backend_alb_routes" {
   service_hosts      = ["backend-${terraform.env}.${var.domain}", "backend.${var.domain}"]
 }
 
-
 module "web_console_alb_routes" {
   source = "../terraform-modules/aws-alb-hostname-routes"
 
@@ -69,6 +68,7 @@ module "web_console_alb_routes" {
   target_group_arn   = "${module.web_console.target_group_arn}"
   service_hosts      = ["console-${terraform.env}.${var.domain}", "console.${var.domain}"]
 }
+
 /*
 resource "aws_cloudwatch_metric_alarm" "alb_request_count_low" {
   alarm_name          = "${aws_alb.alb.name}-request_count_low"
