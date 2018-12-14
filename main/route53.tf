@@ -49,3 +49,16 @@ resource "aws_route53_record" "content" {
     evaluate_target_health = false
   }
 }
+
+resource "aws_route53_record" "rabbitmq" {
+  name = "rmq-${terraform.env}.${var.domain}"
+
+  zone_id = "${var.zone_id}"
+  type    = "A"
+
+  alias {
+    name                   = "${module.rmq.rabbitmq_dns_name}"
+    zone_id                = "${module.rmq.rabbitmq_zone_id}"
+    evaluate_target_health = false
+  }
+}

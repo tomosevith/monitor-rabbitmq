@@ -36,9 +36,10 @@ module "web_console_ssm_role" {
 module "web_console_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  name       = "console-${local.name}"
-  kms_key_id = "${module.web_console_ssm_role.kms_key_id}"
-  count      = 6
+  service_name = "console-${local.name}"
+  project_name = "${var.name}"
+  kms_key_id   = "${module.web_console_ssm_role.kms_key_id}"
+  count        = 6
 
   parameters = {
     db_host         = "${module.rds.this_db_instance_address}"
@@ -62,9 +63,10 @@ module "web_console_parameters" {
 module "web_console_additional_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  name       = "console-${local.name}"
-  kms_key_id = "${module.web_console_ssm_role.kms_key_id}"
-  count      = "${length(var.web_console_additional_parameters)}"
+  service_name = "console-${local.name}"
+  project_name = "${var.name}"
+  kms_key_id   = "${module.web_console_ssm_role.kms_key_id}"
+  count        = "${length(var.web_console_additional_parameters)}"
 
   parameters = "${var.web_console_additional_parameters}"
 
