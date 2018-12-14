@@ -39,6 +39,7 @@ resource "aws_launch_configuration" "converters" {
   associate_public_ip_address = false
   ebs_optimized               = false
   user_data                   = "${data.template_file.aws_converters.rendered}"
+  iam_instance_profile        = "${aws_iam_instance_profile.converters_instance.name}"
 
   root_block_device {
     volume_size           = "10"
@@ -52,7 +53,7 @@ resource "aws_launch_configuration" "converters" {
 }
 
 resource "aws_cloudwatch_log_group" "converters" {
-  name = "/converters/${var.name}"
+  name = "/converters/${local.name}"
 }
 
 resource "aws_autoscaling_group" "converters" {
@@ -81,4 +82,70 @@ resource "aws_autoscaling_group" "converters" {
     value               = "converters-${local.name}"
     propagate_at_launch = true
   }
+}
+
+resource "aws_iam_instance_profile" "converters_instance" {
+  name = "converters-${local.name}"
+  role = "${aws_iam_role.converters_instance.name}"
+}
+
+resource "aws_iam_role" "converters_instance" {
+  name = "converters-${local.name}"
+
+  assume_role_policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": "sts:AssumeRole",
+      "Principal": {
+      "Service": ["ec2.amazonaws.com"]
+    },
+    "Effect": "Allow",
+    "Sid": ""
+    }
+  ]
+}
+EOF
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_iam_policy" "converters_instance" {
+  name        = "converters-${local.name}"
+  description = "A terraform created policy for EC2 Instances"
+
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:GetRepositoryPolicy",
+                "ecr:DescribeRepositories",
+                "ecr:ListImages",
+                "ecr:DescribeImages",
+                "ecr:BatchGetImage"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+EOF
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_iam_policy_attachment" "attach_converters" {
+  name       = "converters-${local.name}"
+  roles      = ["${aws_iam_role.converters_instance.name}"]
+  policy_arn = "${aws_iam_policy.converters_instance.arn}"
 }
