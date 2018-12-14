@@ -2,7 +2,10 @@ data "template_file" "aws_converters" {
   template = "${file("${path.module}/user-data/converters-instance.tpl")}"
 
   vars {
-    name = "converters-${local.name}"
+    name             = "converters-${local.name}"
+    region           = "${var.region}"
+    converters_image = "${var.converters_image}"
+    rabbitmq_url     = "${var.rabbitmq_url}"
   }
 }
 

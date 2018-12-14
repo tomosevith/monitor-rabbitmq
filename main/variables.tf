@@ -88,6 +88,10 @@ variable "web_console_image" {
   default = "videobattle.console"
 }
 
+variable "converters_image" {
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/videoconverter"
+}
+
 variable "web_console_additional_parameters" {
   default = {}
 }
