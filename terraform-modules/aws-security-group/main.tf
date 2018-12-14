@@ -140,10 +140,38 @@ resource "aws_security_group" "rmq_node_security_group" {
   vpc_id      = "${var.vpc_id}"
 
   ingress {
+    protocol  = -1
+    from_port = 0
+    to_port   = 0
+    self      = true
+  }
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 5672
+    to_port         = 5672
+    security_groups = ["${aws_security_group.rmq_elb_security_group.id}"]
+  }
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 15672
+    to_port         = 15672
+    security_groups = ["${aws_security_group.rmq_elb_security_group.id}"]
+  }
+
+  ingress {
+    protocol        = "tcp"
+    from_port       = 22
+    to_port         = 22
+    security_groups = ["${aws_security_group.rmq_elb_security_group.id}"]
+  }
+
+  ingress {
+    protocol        = "tcp"
     from_port       = 0
     to_port         = 65535
-    protocol        = "tcp"
-    security_groups = ["${aws_security_group.rmq_elb_security_group.id}"]
+    security_groups = ["${aws_security_group.ssh_security_group.id}"]
   }
 
   egress {
