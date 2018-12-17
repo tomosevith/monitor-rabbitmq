@@ -55,7 +55,7 @@ resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
 
 resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
   target_id = "run-scheduled-task-every-hour"
-  arn       = "${module.ecs_cluster.cluster_name}"
+  arn       = "${module.ecs_cluster.cluster_arn}"
   rule      = "${aws_cloudwatch_event_rule.vb_crons_rules.name}"
   role_arn  = "${aws_iam_role.vb_ecs_events.arn}"
 
