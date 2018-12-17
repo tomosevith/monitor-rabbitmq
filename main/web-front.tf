@@ -42,14 +42,20 @@ module "web_front_parameters" {
   count        = 8
 
   parameters = {
-    "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
-    app_key                               = "${random_string.app_key.result}"
-    "Auth/Jwt/SigningKey"                 = "${local.front_jwt_key}"
-    "RabbitMq/Username"                   = "${local.rabbitmq_user}"
-    "RabbitMq/Password"                   = "${local.rabbitmq_pwd}"
-    "RabbitMq/VirtualHost"                = "/"
-    "RabbitMq/Port"                       = "5672"
-    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
+    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "Auth/Jwt/SigningKey"                       = "${local.front_jwt_key}"
+    "RabbitMq/Username"                         = "${local.rabbitmq_user}"
+    "RabbitMq/Password"                         = "${local.rabbitmq_pwd}"
+    "RabbitMq/VirtualHost"                      = "/"
+    "RabbitMq/Port"                             = "5672"
+    "RabbitMq/Hostname"                         = "${aws_route53_record.rabbitmq.fqdn}"
+    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = ""
+    "Cdn/UrlScheme/AwsRsaKey"                   = ""
+    "GooglePlay/ServiceAccountKey/private_key"  = ""
+    "GoogleCloudMessaging/AuthToken"            = ""
+    "ApplePushNotification/Certificate"         = ""
+    "ApplePushNotification/CertificatePassword" = ""
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""

@@ -51,6 +51,12 @@ resource "random_string" "rabbitmq_pwd" {
   upper   = true
 }
 
+resource "random_string" "molodejj_tv" {
+  length  = 32
+  special = false
+  upper   = true
+}
+
 resource "random_id" "front_jwt_key" {
   byte_length = 16
 }

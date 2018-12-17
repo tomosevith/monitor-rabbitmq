@@ -42,12 +42,14 @@ module "web_console_parameters" {
   count        = 6
 
   parameters = {
-    db_host         = "${module.rds.this_db_instance_address}"
-    db_database     = "${local.database_name}"
-    db_username     = "${local.database_user}"
-    db_password     = "${local.database_password}"
-    app_key         = "${random_string.app_key.result}"
-    console_jwt_key = "${local.console_jwt_key}"
+    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = ""
+    "Cdn/UrlScheme/AwsRsaKey"                   = ""
+    "GooglePlay/ServiceAccountKey/private_key"  = ""
+    "GoogleCloudMessaging/AuthToken"            = ""
+    "ApplePushNotification/Certificate"         = ""
+    "ApplePushNotification/CertificatePassword" = ""
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""
