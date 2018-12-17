@@ -5,6 +5,7 @@ data "template_file" "aws_converters" {
     name             = "converters-${local.name}"
     region           = "${var.region}"
     converters_image = "${var.converters_image}"
+    rmq_hostname     = "${aws_route53_record.rabbitmq.fqdn}"
   }
 }
 
