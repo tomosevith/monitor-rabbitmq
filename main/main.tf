@@ -51,16 +51,12 @@ resource "random_string" "rabbitmq_pwd" {
   upper   = true
 }
 
-resource "random_string" "front_jwt_key" {
-  length  = 32
-  special = false
-  upper   = true
+resource "random_id" "front_jwt_key" {
+  byte_length = 16
 }
 
-resource "random_string" "back_jwt_key" {
-  length  = 32
-  special = false
-  upper   = true
+resource "random_id" "back_jwt_key" {
+  byte_length = 16
 }
 
 resource "random_string" "console_jwt_key" {
@@ -76,8 +72,7 @@ locals {
   database_password = "${random_string.database_password.result}"
   rabbitmq_pwd      = "${random_string.rabbitmq_pwd.result}"
   rabbitmq_user     = "${random_string.database_prefix.result}${random_string.rabbitmq_user.result}"
-  front_jwt_key     = "${random_string.front_jwt_key.result}"
-  back_jwt_key      = "${random_string.back_jwt_key.result}"
-
-  console_jwt_key = "${random_string.console_jwt_key.result}"
+  front_jwt_key     = "${random_id.front_jwt_key.hex}"
+  back_jwt_key      = "${random_id.back_jwt_key.hex}"
+  console_jwt_key   = "${random_string.console_jwt_key.result}"
 }
