@@ -39,7 +39,7 @@ module "web_console_parameters" {
   service_name = "console-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_console_ssm_role.kms_key_id}"
-  count        = 6
+  count        = 8
 
   parameters = {
     "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
