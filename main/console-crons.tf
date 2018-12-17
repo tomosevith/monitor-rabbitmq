@@ -46,7 +46,7 @@ DOC
 
 ## Расписание по которому будет выполняться команда
 resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
-  name                = "Videobattle.dll -gifts"
+  name                = "cron-gifts-${local.name}"
   description         = "run library every 19 minutes"
   schedule_expression = "cron(0 19 * * ? *)"
 }

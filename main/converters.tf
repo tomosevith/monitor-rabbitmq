@@ -19,7 +19,7 @@ module "converters_ssm_role" {
 module "converters_parameters" {
   source = "../terraform-modules/aws-chamber-parameter-store"
 
-  service_name = "converterst-${local.name}"
+  service_name = "converters-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.converters_ssm_role.kms_key_id}"
   count        = 14
@@ -33,12 +33,12 @@ module "converters_parameters" {
     "RabbitMq/Port"                             = "5672"
     "RabbitMq/Hostname"                         = "${aws_route53_record.rabbitmq.fqdn}"
     "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
-    "Cdn/UrlScheme/AwsRsaKeyId"                 = ""
-    "Cdn/UrlScheme/AwsRsaKey"                   = ""
-    "GooglePlay/ServiceAccountKey/private_key"  = ""
-    "GoogleCloudMessaging/AuthToken"            = ""
-    "ApplePushNotification/Certificate"         = ""
-    "ApplePushNotification/CertificatePassword" = ""
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = "1"
+    "Cdn/UrlScheme/AwsRsaKey"                   = "1"
+    "GooglePlay/ServiceAccountKey/private_key"  = "1"
+    "GoogleCloudMessaging/AuthToken"            = "1"
+    "ApplePushNotification/Certificate"         = "1"
+    "ApplePushNotification/CertificatePassword" = "1"
   }
 }
 
