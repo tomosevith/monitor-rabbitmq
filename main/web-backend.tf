@@ -39,15 +39,18 @@ module "web_backend_parameters" {
   service_name = "backend-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_backend_ssm_role.kms_key_id}"
-  count        = 6
+  count        = 9
 
   parameters = {
-    db_host      = "${module.rds.this_db_instance_address}"
-    db_database  = "${local.database_name}"
-    db_username  = "${local.database_user}"
-    db_password  = "${local.database_password}"
-    app_key      = "${random_string.app_key.result}"
-    back_jwt_key = "${local.back_jwt_key}"
+    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "Auth/Jwt/SigningKey"                       = "${local.back_jwt_key}"
+    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = ""
+    "Cdn/UrlScheme/AwsRsaKey"                   = ""
+    "GooglePlay/ServiceAccountKey/private_key"  = ""
+    "GoogleCloudMessaging/AuthToken"            = ""
+    "ApplePushNotification/Certificate"         = ""
+    "ApplePushNotification/CertificatePassword" = ""
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""

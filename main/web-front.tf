@@ -39,17 +39,23 @@ module "web_front_parameters" {
   service_name = "front-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_front_ssm_role.kms_key_id}"
-  count        = 8
+  count        = 14
 
   parameters = {
-    db_host       = "${module.rds.this_db_instance_address}"
-    db_database   = "${local.database_name}"
-    db_username   = "${local.database_user}"
-    db_password   = "${local.database_password}"
-    app_key       = "${random_string.app_key.result}"
-    front_jwt_key = "${local.front_jwt_key}"
-    rabbitmq_user = "${local.rabbitmq_user}"
-    rabbitmq_pwd  = "${local.rabbitmq_pwd}"
+    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "Auth/Jwt/SigningKey"                       = "${local.front_jwt_key}"
+    "RabbitMq/Username"                         = "${local.rabbitmq_user}"
+    "RabbitMq/Password"                         = "${local.rabbitmq_pwd}"
+    "RabbitMq/VirtualHost"                      = "/"
+    "RabbitMq/Port"                             = "5672"
+    "RabbitMq/Hostname"                         = "${aws_route53_record.rabbitmq.fqdn}"
+    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = ""
+    "Cdn/UrlScheme/AwsRsaKey"                   = ""
+    "GooglePlay/ServiceAccountKey/private_key"  = ""
+    "GoogleCloudMessaging/AuthToken"            = ""
+    "ApplePushNotification/Certificate"         = ""
+    "ApplePushNotification/CertificatePassword" = ""
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""
