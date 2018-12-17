@@ -5,7 +5,40 @@ data "template_file" "aws_converters" {
     name             = "converters-${local.name}"
     region           = "${var.region}"
     converters_image = "${var.converters_image}"
-    rabbitmq_url     = "${aws_route53_record.rabbitmq.fqdn}"
+  }
+}
+
+module "converters_ssm_role" {
+  source = "../terraform-modules/aws-parameter-store"
+
+  name        = "converters-${local.name}"
+  environment = "${terraform.workspace}"
+  region      = "${var.region}"
+}
+
+module "converters_parameters" {
+  source = "../terraform-modules/aws-chamber-parameter-store"
+
+  service_name = "converterst-${local.name}"
+  project_name = "${var.name}"
+  kms_key_id   = "${module.converters_ssm_role.kms_key_id}"
+  count        = 14
+
+  parameters = {
+    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "Auth/Jwt/SigningKey"                       = "${local.front_jwt_key}"
+    "RabbitMq/Username"                         = "${local.rabbitmq_user}"
+    "RabbitMq/Password"                         = "${local.rabbitmq_pwd}"
+    "RabbitMq/VirtualHost"                      = "/"
+    "RabbitMq/Port"                             = "5672"
+    "RabbitMq/Hostname"                         = "${aws_route53_record.rabbitmq.fqdn}"
+    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = ""
+    "Cdn/UrlScheme/AwsRsaKey"                   = ""
+    "GooglePlay/ServiceAccountKey/private_key"  = ""
+    "GoogleCloudMessaging/AuthToken"            = ""
+    "ApplePushNotification/Certificate"         = ""
+    "ApplePushNotification/CertificatePassword" = ""
   }
 }
 
