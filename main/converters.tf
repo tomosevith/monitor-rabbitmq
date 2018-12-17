@@ -170,9 +170,15 @@ resource "aws_iam_policy" "converters_instance" {
                 "ecr:BatchGetImage"
             ],
             "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "*"
         }
     ]
 }
+
 EOF
 
   lifecycle {

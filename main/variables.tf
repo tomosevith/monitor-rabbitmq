@@ -65,12 +65,12 @@ variable "ssl_certificate_arn" {
 variable "zone_id" {
   default = "Z89Q1R238KKU8"
 }
+
 ####### variables for console claster
 
 variable "console_backend_additional_parameters" {
   default = {}
 }
-
 
 ####### variable for ecs cluster services 
 
