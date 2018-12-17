@@ -2,10 +2,11 @@ data "template_file" "aws_converters" {
   template = "${file("${path.module}/user-data/converters-instance.tpl")}"
 
   vars {
-    name             = "converters-${local.name}"
+    service_name     = "converters-${local.name}"
+    project_name     = "${var.name}"
+    kms_keys_alias   = "${module.converters_ssm_role.kms_key_id}"
     region           = "${var.region}"
     converters_image = "${var.converters_image}"
-    rmq_hostname     = "${aws_route53_record.rabbitmq.fqdn}"
   }
 }
 
@@ -34,8 +35,8 @@ module "converters_parameters" {
     "RabbitMq/Port"                             = "5672"
     "RabbitMq/Hostname"                         = "${aws_route53_record.rabbitmq.fqdn}"
     "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
-    "Cdn/UrlScheme/AwsRsaKeyId"                 = "1"
-    "Cdn/UrlScheme/AwsRsaKey"                   = "1"
+    "Cdn/UrlScheme/AwsRsaKeyId"                 = "${aws_cloudfront_public_key.signed_link.id}"
+    "Cdn/UrlScheme/AwsRsaKey"                   = "${tls_private_key.signed_link.private_key_pem}"
     "GooglePlay/ServiceAccountKey/private_key"  = "1"
     "GoogleCloudMessaging/AuthToken"            = "1"
     "ApplePushNotification/Certificate"         = "1"
@@ -123,31 +124,7 @@ resource "aws_autoscaling_group" "converters" {
 
 resource "aws_iam_instance_profile" "converters_instance" {
   name = "converters-${local.name}"
-  role = "${aws_iam_role.converters_instance.name}"
-}
-
-resource "aws_iam_role" "converters_instance" {
-  name = "converters-${local.name}"
-
-  assume_role_policy = <<EOF
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Action": "sts:AssumeRole",
-      "Principal": {
-      "Service": ["ec2.amazonaws.com"]
-    },
-    "Effect": "Allow",
-    "Sid": ""
-    }
-  ]
-}
-EOF
-
-  lifecycle {
-    create_before_destroy = true
-  }
+  role = "${module.converters_ssm_role.role_name}"
 }
 
 resource "aws_iam_policy" "converters_instance" {
@@ -189,6 +166,6 @@ EOF
 
 resource "aws_iam_policy_attachment" "attach_converters" {
   name       = "converters-${local.name}"
-  roles      = ["${aws_iam_role.converters_instance.name}"]
+  roles      = ["${module.converters_ssm_role.role_name}"]
   policy_arn = "${aws_iam_policy.converters_instance.arn}"
 }

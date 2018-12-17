@@ -1,3 +1,5 @@
+data "aws_caller_identity" "current" {}
+
 resource "aws_kms_key" "main" {
   description             = "Parameter store kms master key for ${var.name} ${var.environment} ${var.region}"
   deletion_window_in_days = 10

@@ -8,7 +8,7 @@ resource "aws_iam_role" "main" {
     {
       "Action": "sts:AssumeRole",
       "Principal": {
-      "Service": ["ecs-tasks.amazonaws.com"]
+      "Service": ["ecs-tasks.amazonaws.com", "ec2.amazonaws.com"]
     },
     "Effect": "Allow",
     "Sid": ""
@@ -31,7 +31,7 @@ resource "aws_iam_policy" "main" {
         "ssm:DescribeParameters"
       ],
       "Resource": [
-        "arn:aws:ssm:${var.region}:453706994751:*"
+        "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:*"
       ]
     },
     {
@@ -42,7 +42,7 @@ resource "aws_iam_policy" "main" {
         "ssm:GetParameter"
       ],
       "Resource": [
-        "arn:aws:ssm:${var.region}:453706994751:parameter/${var.name}/*"
+        "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.name}/*"
       ]
     },
     {

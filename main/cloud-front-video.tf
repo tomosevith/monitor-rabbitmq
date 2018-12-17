@@ -17,3 +17,13 @@ module "video" {
     Environment = "${terraform.env}"
   }
 }
+
+resource "tls_private_key" "signed_link" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+resource "aws_cloudfront_public_key" "signed_link" {
+  name        = "video-${local.name}"
+  encoded_key = "${tls_private_key.signed_link.public_key_pem}"
+}
