@@ -45,7 +45,7 @@ DOC
 
 ## Расписание по которому будет выполняться команда
 resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
-  name                = "Videobattle.dll"
+  name                = "Videobattle.dll -gifts"
   description         = "run library every 19 minutes"
   schedule_expression = "cron(0 19 * * ? *)"
 }
@@ -69,7 +69,7 @@ resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
 {
   "containerOverrides": [
     {
-      "name": "name-of-container-to-override",
+      "name": "${var.web_console_image}",
       "command": ["dotnet", "VideoBattle.Console.dll", "-gifts"]
     }
   ]
