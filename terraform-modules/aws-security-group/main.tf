@@ -75,6 +75,7 @@ resource "aws_security_group" "rds_security_group" {
 
     security_groups = ["${aws_security_group.ecs_security_group.id}",
       "${aws_security_group.converters_security_group.id}",
+      "${aws_security_group.ssh_security_group.id}",
     ]
   }
 
