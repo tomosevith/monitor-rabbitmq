@@ -54,6 +54,7 @@ module "web_backend_parameters" {
     "RabbitMq/Port"                       = "5672"
     "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
+    "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""

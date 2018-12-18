@@ -39,6 +39,7 @@ module "converters_parameters" {
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
     "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
+    "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
   }
 }
 
