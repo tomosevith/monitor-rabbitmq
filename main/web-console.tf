@@ -39,17 +39,13 @@ module "web_console_parameters" {
   service_name = "console-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_console_ssm_role.kms_key_id}"
-  count        = 8
+  count        = 4
 
   parameters = {
-    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
-    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
-    "Cdn/UrlScheme/AwsRsaKeyId"                 = "${aws_cloudfront_public_key.signed_link.id}"
-    "Cdn/UrlScheme/AwsRsaKey"                   = "${tls_private_key.signed_link.private_key_pem}"
-    "GooglePlay/ServiceAccountKey/private_key"  = "1"
-    "GoogleCloudMessaging/AuthToken"            = "1"
-    "ApplePushNotification/Certificate"         = "1"
-    "ApplePushNotification/CertificatePassword" = "1"
+    "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "UrlSchemes/Molodejj.Tv/Secret"       = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
+    "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""

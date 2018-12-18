@@ -24,23 +24,35 @@ module "converters_parameters" {
   service_name = "converters-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.converters_ssm_role.kms_key_id}"
-  count        = 14
+  count        = 10
 
   parameters = {
-    "ConnectionStrings/DefaultConnection"       = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
-    "Auth/Jwt/SigningKey"                       = "${local.front_jwt_key}"
-    "RabbitMq/Username"                         = "${local.rabbitmq_user}"
-    "RabbitMq/Password"                         = "${local.rabbitmq_pwd}"
-    "RabbitMq/VirtualHost"                      = "/"
-    "RabbitMq/Port"                             = "5672"
-    "RabbitMq/Hostname"                         = "${aws_route53_record.rabbitmq.fqdn}"
-    "UrlSchemes/Molodejj.Tv/Secret"             = "${random_string.molodejj_tv.result}"
-    "Cdn/UrlScheme/AwsRsaKeyId"                 = "${aws_cloudfront_public_key.signed_link.id}"
-    "Cdn/UrlScheme/AwsRsaKey"                   = "${tls_private_key.signed_link.private_key_pem}"
-    "GooglePlay/ServiceAccountKey/private_key"  = "1"
-    "GoogleCloudMessaging/AuthToken"            = "1"
-    "ApplePushNotification/Certificate"         = "1"
-    "ApplePushNotification/CertificatePassword" = "1"
+    "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
+    "Auth/Jwt/SigningKey"                 = "${local.front_jwt_key}"
+    "RabbitMq/Username"                   = "${local.rabbitmq_user}"
+    "RabbitMq/Password"                   = "${local.rabbitmq_pwd}"
+    "RabbitMq/VirtualHost"                = "/"
+    "RabbitMq/Port"                       = "5672"
+    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
+    "UrlSchemes/Molodejj.Tv/Secret"       = "${random_string.molodejj_tv.result}"
+    "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
+    "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
+  }
+}
+
+module "converters_additional_parameters" {
+  source = "../terraform-modules/aws-chamber-parameter-store"
+
+  service_name = "converters-${local.name}"
+  project_name = "${var.name}"
+  kms_key_id   = "${module.web_front_ssm_role.kms_key_id}"
+  count        = "${length(var.converters_additional_parameters)}"
+
+  parameters = "${var.converters_additional_parameters}"
+
+  tags = {
+    Name        = "converters-${local.name}"
+    Environment = "${terraform.env}"
   }
 }
 
