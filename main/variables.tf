@@ -75,7 +75,7 @@ variable "console_backend_additional_parameters" {
 ####### variable for ecs cluster services 
 
 variable "web_front_image" {
-  default = "videobattle.front.web"
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/front"
 }
 
 variable "web_front_additional_parameters" {
@@ -83,7 +83,7 @@ variable "web_front_additional_parameters" {
 }
 
 variable "web_backend_image" {
-  default = "videobattle.backend.web"
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/backend"
 }
 
 variable "web_backend_additional_parameters" {
@@ -91,8 +91,13 @@ variable "web_backend_additional_parameters" {
 }
 
 variable "web_console_image" {
-  default = "videobattle.console"
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console"
 }
+
+variable "console_crons_image" {
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console_crons"
+}
+
 
 variable "converters_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/videoconverter"
