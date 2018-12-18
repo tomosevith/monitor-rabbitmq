@@ -171,7 +171,7 @@ variable "domain_content" {
 
 ### Bastion Host
 variable "enable_bastion" {
-  default = "true"
+  default = "false"
 }
 
 ##### CLOUDFORMATION VIDEO
