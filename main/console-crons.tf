@@ -48,7 +48,7 @@ DOC
 resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
   name                = "cron-gifts-${local.name}"
   description         = "run library every 19 minutes"
-  schedule_expression = "cron(0 19 * * ? *)"
+  schedule_expression = "cron(0/19 * * * ? *)"
 }
 
 ## Выполняет команду
