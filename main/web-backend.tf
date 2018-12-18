@@ -11,7 +11,7 @@ module "web_backend" {
   service_check_path   = "/"
   service_response     = "200"
   service_cmd          = "dotnet,VideoBattle.Back.Web.dll"
-  service_entrypoint   = "/usr/local/bin/chamber,exec,backend-${local.name},--"
+  service_entrypoint   = ""
   cluster_id           = "${module.ecs_cluster.cluster_id}"
   cluster_name         = "${module.ecs_cluster.cluster_name}"
   task_template        = "${file("${path.module}/task-definitions/task-defenition.json")}"

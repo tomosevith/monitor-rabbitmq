@@ -10,8 +10,8 @@ module "web_front" {
   desired_count        = 1
   service_check_path   = "/"
   service_response     = "200"
-  service_cmd          = "./wait-for-it.sh,broker:5672,-s,-t,30,--,dotnet,VideoBattle.Front.Web.dll"
-  service_entrypoint   = "/usr/local/bin/chamber,exec,front-${local.name},--"
+  service_cmd          = "dotnet,VideoBattle.Front.Web.dll"
+  service_entrypoint   = ""
   cluster_id           = "${module.ecs_cluster.cluster_id}"
   cluster_name         = "${module.ecs_cluster.cluster_name}"
   task_template        = "${file("${path.module}/task-definitions/task-defenition.json")}"
