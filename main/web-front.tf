@@ -30,8 +30,8 @@ module "web_front_ssm_role" {
 
   service_name = "front-${local.name}"
   project_name = "${var.name}"
-  environment = "${terraform.workspace}"
-  region      = "${var.region}"
+  environment  = "${terraform.workspace}"
+  region       = "${var.region}"
 }
 
 module "web_front_parameters" {

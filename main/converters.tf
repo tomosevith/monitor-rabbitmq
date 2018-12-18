@@ -15,8 +15,8 @@ module "converters_ssm_role" {
 
   service_name = "converters-${local.name}"
   project_name = "${var.name}"
-  environment = "${terraform.workspace}"
-  region      = "${var.region}"
+  environment  = "${terraform.workspace}"
+  region       = "${var.region}"
 }
 
 module "converters_parameters" {
