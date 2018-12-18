@@ -98,9 +98,12 @@ variable "console_crons_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console_crons"
 }
 
-
 variable "converters_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/videoconverter"
+}
+
+variable "converters_additional_parameters" {
+  default = {}
 }
 
 variable "web_console_additional_parameters" {
