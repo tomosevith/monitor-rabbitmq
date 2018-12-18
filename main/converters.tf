@@ -15,8 +15,8 @@ module "converters_ssm_role" {
 
   service_name = "converters-${local.name}"
   project_name = "${var.name}"
-  environment = "${terraform.workspace}"
-  region      = "${var.region}"
+  environment  = "${terraform.workspace}"
+  region       = "${var.region}"
 }
 
 module "converters_parameters" {
@@ -38,6 +38,7 @@ module "converters_parameters" {
     "UrlSchemes/Molodejj.Tv/Secret"       = "${random_string.molodejj_tv.result}"
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
     "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
+    "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
   }
 }
 

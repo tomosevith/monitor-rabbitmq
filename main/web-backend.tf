@@ -30,8 +30,8 @@ module "web_backend_ssm_role" {
 
   service_name = "backend-${local.name}"
   project_name = "${var.name}"
-  environment = "${terraform.workspace}"
-  region      = "${var.region}"
+  environment  = "${terraform.workspace}"
+  region       = "${var.region}"
 }
 
 module "web_backend_parameters" {
@@ -53,6 +53,8 @@ module "web_backend_parameters" {
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
     "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
+    "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
+
     #cdn_sl_key       = ""
     #minio_secret_key = ""
     #s3_bucket        = ""
