@@ -13,7 +13,8 @@ data "template_file" "aws_converters" {
 module "converters_ssm_role" {
   source = "../terraform-modules/aws-parameter-store"
 
-  name        = "converters-${local.name}"
+  service_name = "converters-${local.name}"
+  project_name = "${var.name}"
   environment = "${terraform.workspace}"
   region      = "${var.region}"
 }
@@ -29,8 +30,8 @@ module "converters_parameters" {
   parameters = {
     "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
     "Auth/Jwt/SigningKey"                 = "${local.front_jwt_key}"
-    "RabbitMq/Username"                   = "${local.rabbitmq_user}"
-    "RabbitMq/Password"                   = "${local.rabbitmq_pwd}"
+    "RabbitMq/Username"                   = "rabbit"
+    "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
     "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"

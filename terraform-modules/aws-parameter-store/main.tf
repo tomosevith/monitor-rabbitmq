@@ -1,7 +1,7 @@
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "main" {
-  description             = "Parameter store kms master key for ${var.name} ${var.environment} ${var.region}"
+  description             = "Parameter store kms master key for ${var.service_name} ${var.environment} ${var.region}"
   deletion_window_in_days = 10
   enable_key_rotation     = true
 
@@ -11,6 +11,6 @@ resource "aws_kms_key" "main" {
 }
 
 resource "aws_kms_alias" "main_alias" {
-  name          = "alias/${var.name}"
+  name          = "alias/${var.service_name}"
   target_key_id = "${aws_kms_key.main.id}"
 }

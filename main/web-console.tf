@@ -28,7 +28,8 @@ module "web_console" {
 module "web_console_ssm_role" {
   source = "../terraform-modules/aws-parameter-store"
 
-  name        = "console-${local.name}"
+  service_name = "console-${local.name}"
+  project_name = "${var.name}"
   environment = "${terraform.workspace}"
   region      = "${var.region}"
 }
@@ -46,7 +47,11 @@ module "web_console_parameters" {
     "UrlSchemes/Molodejj.Tv/Secret"       = "${random_string.molodejj_tv.result}"
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
     "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
-
+    "RabbitMq/Username"                   = "rabbit"
+    "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
+    "RabbitMq/VirtualHost"                = "/"
+    "RabbitMq/Port"                       = "5672"
+    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
     #cdn_sl_key       = ""
     #minio_secret_key = ""
     #s3_bucket        = ""

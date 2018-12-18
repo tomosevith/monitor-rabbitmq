@@ -1,5 +1,5 @@
 resource "aws_iam_role" "main" {
-  name = "${var.name}-parameter-store"
+  name = "${var.service_name}-parameter-store"
 
   assume_role_policy = <<EOF
 {
@@ -19,7 +19,7 @@ EOF
 }
 
 resource "aws_iam_policy" "main" {
-  name = "${var.name}-parameter-store"
+  name = "${var.service_name}-parameter-store"
 
   policy = <<EOF
 {
@@ -31,7 +31,7 @@ resource "aws_iam_policy" "main" {
         "ssm:DescribeParameters"
       ],
       "Resource": [
-        "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:*"
+        "*"
       ]
     },
     {
@@ -42,7 +42,7 @@ resource "aws_iam_policy" "main" {
         "ssm:GetParameter"
       ],
       "Resource": [
-        "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.name}/*"
+        "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/${var.project_name}/${var.service_name}/*"
       ]
     },
     {
@@ -70,7 +70,7 @@ EOF
 }
 
 resource "aws_iam_policy_attachment" "main" {
-  name       = "${var.name}-parameter-store"
+  name       = "${var.service_name}-parameter-store"
   roles      = ["${aws_iam_role.main.name}"]
   policy_arn = "${aws_iam_policy.main.arn}"
 }
