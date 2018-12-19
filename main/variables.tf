@@ -51,11 +51,11 @@ variable "ecs_asg_min" {
 }
 
 variable "ecs_asg_max" {
-  default = 2
+  default = 4
 }
 
 variable "ecs_asg_desired" {
-  default = 4
+  default = 2
 }
 
 variable "ssl_certificate_arn" {
