@@ -35,6 +35,10 @@
           "value": "1"
         },
         {
+          "name": "ASPNETCORE_ENVIRONMENT",
+          "value": "Production"
+        },
+        {
           "name": "AWS_DEFAULT_REGION",
           "value": "${region}"
         },
