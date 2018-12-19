@@ -40,21 +40,21 @@ module "web_backend_parameters" {
   service_name = "backend-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_backend_ssm_role.kms_key_id}"
-  count        = 12
+  count        = 11
 
   parameters = {
     "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
     "Auth/Jwt/SigningKey"                 = "${local.back_jwt_key}"
-    "UrlSchemes/Molodejj.Tv/Secret"       = "${random_string.molodejj_tv.result}"
-    "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
-    "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
-    "RabbitMq/Username"                   = "rabbit"
-    "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
-    "RabbitMq/VirtualHost"                = "/"
-    "RabbitMq/Port"                       = "5672"
-    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
-    "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
-    "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
+
+    "Cdn/UrlScheme/AwsRsaKeyId" = "${aws_cloudfront_public_key.signed_link.id}"
+    "Cdn/UrlScheme/AwsRsaKey"   = "${tls_private_key.signed_link.private_key_pem}"
+    "RabbitMq/Username"         = "rabbit"
+    "RabbitMq/Password"         = "${random_string.rmq_password.result}"
+    "RabbitMq/VirtualHost"      = "/"
+    "RabbitMq/Port"             = "5672"
+    "RabbitMq/Hostname"         = "${aws_route53_record.rabbitmq.fqdn}"
+    "AWS/BucketName"            = "${module.video.s3_bucket_id}"
+    "Cdn/BaseUrl"               = "https://${aws_route53_record.content.fqdn}"
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""
