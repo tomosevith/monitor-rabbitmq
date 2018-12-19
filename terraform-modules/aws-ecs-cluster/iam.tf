@@ -44,7 +44,6 @@ resource "aws_iam_policy" "ecs_instance" {
       "Effect": "Allow",
       "Action": [
         "autoscaling:*",
-        "s3:*",
         "ecs:CreateCluster",
         "ecs:DeregisterContainerInstance",
         "ecs:DiscoverPollEndpoint",

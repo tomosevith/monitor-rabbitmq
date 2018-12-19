@@ -40,7 +40,7 @@ module "web_backend_parameters" {
   service_name = "backend-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_backend_ssm_role.kms_key_id}"
-  count        = 5
+  count        = 12
 
   parameters = {
     "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
