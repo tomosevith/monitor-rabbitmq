@@ -40,7 +40,7 @@ resource "aws_appautoscaling_target" "ecs_service_scale_target" {
   scalable_dimension = "ecs:service:DesiredCount"
 
   //role_arn = "${aws_iam_role.ecs_service_autoscale.arn}"
-  min_capacity = 1
+  min_capacity = "${var.min_capacity}"
   max_capacity = "${var.max_capacity}"
 
   depends_on = [

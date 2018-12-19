@@ -8,6 +8,7 @@ module "web_console" {
   service_port         = "80"
   service_memory       = 300
   desired_count        = 0
+  min_capacity         = 0
   service_check_path   = "/"
   service_response     = "200"
   service_cmd          = "dotnet,VideoBattle.Console.dll"

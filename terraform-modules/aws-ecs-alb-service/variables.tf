@@ -30,6 +30,10 @@ variable "desired_count" {
   default = "1"
 }
 
+variable "min_capacity" {
+  default = "1"
+}
+
 variable "max_capacity" {
   default = "2"
 }

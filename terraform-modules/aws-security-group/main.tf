@@ -40,12 +40,13 @@ resource "aws_security_group" "ecs_security_group" {
   vpc_id      = "${var.vpc_id}"
 
   ingress {
-    from_port       = 0
-    to_port         = 65535
-    protocol        = "tcp"
-    security_groups = ["${aws_security_group.alb_security_group.id}", 
-      "${aws_security_group.ssh_security_group.id}"
-      ]
+    from_port = 0
+    to_port   = 65535
+    protocol  = "tcp"
+
+    security_groups = ["${aws_security_group.alb_security_group.id}",
+      "${aws_security_group.ssh_security_group.id}",
+    ]
   }
 
   egress {
@@ -102,8 +103,8 @@ resource "aws_security_group" "rmq_elb_security_group" {
     protocol  = "tcp"
 
     security_groups = ["${aws_security_group.ecs_security_group.id}",
-      "${aws_security_group.converters_security_group.id}", 
-      "${aws_security_group.ssh_security_group.id}"
+      "${aws_security_group.converters_security_group.id}",
+      "${aws_security_group.ssh_security_group.id}",
     ]
   }
 
