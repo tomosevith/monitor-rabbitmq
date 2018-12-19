@@ -75,3 +75,7 @@ resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
 }
 DOC
 }
+
+resource "aws_cloudwatch_log_group" "crons" {
+  name = "/crons/${local.name}"
+}

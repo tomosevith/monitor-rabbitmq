@@ -7,6 +7,7 @@ data "template_file" "aws_converters" {
     kms_keys_alias   = "${module.converters_ssm_role.kms_key_id}"
     region           = "${var.region}"
     converters_image = "${var.converters_image}"
+    log_group_name   = "${aws_cloudwatch_log_group.converters.name}"
   }
 }
 
