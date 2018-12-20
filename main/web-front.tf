@@ -7,6 +7,7 @@ module "web_front" {
   service_name         = "front-${local.name}"
   service_port         = "80"
   service_memory       = 300
+  min_capacity         = 2
   desired_count        = 2
   service_check_path   = "/"
   service_response     = "200"
