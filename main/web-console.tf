@@ -53,7 +53,7 @@ module "web_console_parameters" {
     "RabbitMq/Port"                       = "5672"
     "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
-    "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
+    "Cdn/BaseUrl"                         = "https://${var.domain_content}"
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""

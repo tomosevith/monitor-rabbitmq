@@ -44,7 +44,7 @@ module "web_front_parameters" {
 
   parameters = {
     "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
-    "Auth/Jwt/SigningKey"                 = "${local.front_jwt_key}"
+    "Auth/Jwt/SigningKey"                 = "${var.front_jwt_key}"
     "RabbitMq/Username"                   = "rabbit"
     "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
     "RabbitMq/VirtualHost"                = "/"
@@ -53,7 +53,7 @@ module "web_front_parameters" {
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
     "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
-    "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
+    "Cdn/BaseUrl"                         = "https://${var.domain_content}"
 
     #cdn_sl_key       = ""
     #minio_secret_key = ""
