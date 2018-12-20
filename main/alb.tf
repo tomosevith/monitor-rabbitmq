@@ -56,7 +56,7 @@ module "web_backend_alb_routes" {
   http_listener_arn  = "${aws_alb_listener.alb_listener_http.arn}"
   https_listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
   target_group_arn   = "${module.web_backend.target_group_arn}"
-  service_hosts      = ["backend-${terraform.env}.${var.domain}", "backend.${var.domain}", "admin.${var.domain}"]
+  service_hosts      = ["backend-${terraform.env}.${var.domain}", "backend.${var.domain}", "admin.${var.domain}", "admin.playandplay.ru"]
 }
 
 module "web_console_alb_routes" {
