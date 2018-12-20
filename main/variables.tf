@@ -193,7 +193,7 @@ variable "rmq_instance_type" {
 }
 
 variable "allowed_ips" {
-  default = ["92.245.100.114/32"]
+  default = ["92.245.100.114/32", "172.245.26.33/32"]
 }
 
 variable "front_jwt_key" {}

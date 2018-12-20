@@ -35,7 +35,7 @@ module "converters_parameters" {
     "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
-    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
+    "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_dns_name}"
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
     "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"

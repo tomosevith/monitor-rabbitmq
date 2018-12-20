@@ -6,8 +6,8 @@ module "web_front" {
   name                 = "${var.name}"
   service_name         = "front-${local.name}"
   service_port         = "80"
-  service_memory       = 480
-  desired_count        = 1
+  service_memory       = 300
+  desired_count        = 2
   service_check_path   = "/"
   service_response     = "200"
   service_cmd          = "dotnet,VideoBattle.Front.Web.dll"
@@ -49,7 +49,7 @@ module "web_front_parameters" {
     "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
-    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
+    "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_dns_name}"
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
     "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"

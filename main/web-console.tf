@@ -51,7 +51,7 @@ module "web_console_parameters" {
     "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
-    "RabbitMq/Hostname"                   = "${aws_route53_record.rabbitmq.fqdn}"
+    "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_dns_name}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
     "Cdn/BaseUrl"                         = "https://${var.domain_content}"
 
