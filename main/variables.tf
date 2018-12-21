@@ -199,3 +199,28 @@ variable "allowed_ips" {
 variable "front_jwt_key" {}
 
 variable "back_jwt_key" {}
+
+
+#### crons variables
+
+variable "crons_shedule" {
+  type = "map"
+  default = {
+    "0" = "cron(0 19 * * ? *)"
+    "1" = "cron(0 8 * * ? *)"
+    "2" = "cron(*/5 * * * ? *)"
+    "3" = "cron(30 2 * * ? 0)"
+    "4" = "cron(30 3 * * ? 0)"
+  }
+}
+
+variable "crons_tasks" {
+  type = "map"
+  default = {
+    "0" = ["dotnet", "VideoBattle.Console.dll", "-gifts"]
+    "1" = ["dotnet", "VideoBattle.Console.dll", "-tickets"]
+    "2" = ["dotnet", "VideoBattle.Console.dll", "-challenges"]
+    "3" = ["dotnet", "VideoBattle.Console.dll", "-vb-recommendations"]
+    "4" = ["dotnet", "VideoBattle.Console.dll", "-user-recommendations"]
+  }
+}

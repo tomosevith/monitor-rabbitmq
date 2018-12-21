@@ -1,3 +1,4 @@
+
 ## определение IAM роли
 
 resource "aws_iam_role" "vb_ecs_events" {
@@ -46,15 +47,21 @@ DOC
 
 ## Расписание по которому будет выполняться команда
 resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
-  name                = "cron-gifts-${local.name}"
-  description         = "run library every 19 minutes"
-  schedule_expression = "cron(0/19 * * * ? *)"
+
+  #count = length"${var.crons_shedule}"
+
+  name                = "cron-${local.name}"
+  description         = "shedule ro crons"
+  schedule_expression = "${var.crons_shedule[count.index]}"
+
 }
 
 ## Выполняет команду
 
 resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
-  target_id = "run-scheduled-task-every-hour"
+  #count = length(var.crons_tasks)
+
+  target_id = "run-scheduled-tasks"
   arn       = "${module.ecs_cluster.cluster_arn}"
   rule      = "${aws_cloudwatch_event_rule.vb_crons_rules.name}"
   role_arn  = "${aws_iam_role.vb_ecs_events.arn}"
@@ -69,7 +76,7 @@ resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
   "containerOverrides": [
     {
       "name": "${var.web_console_image}",
-      "command": ["dotnet", "VideoBattle.Console.dll", "-gifts"]
+      "command": $[var.crons_tasks[count.index]]
     }
   ]
 }
