@@ -48,7 +48,7 @@ DOC
 ## Расписание по которому будет выполняться команда
 resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
 
-  #count = length"${var.crons_shedule}"
+  count = "${length(var.crons_shedule)}"
 
   name                = "cron-${local.name}"
   description         = "shedule ro crons"
@@ -59,11 +59,11 @@ resource "aws_cloudwatch_event_rule" "vb_crons_rules" {
 ## Выполняет команду
 
 resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
-  #count = length(var.crons_tasks)
+  count = "${length(var.crons_tasks)}"
 
   target_id = "run-scheduled-tasks"
   arn       = "${module.ecs_cluster.cluster_arn}"
-  rule      = "${aws_cloudwatch_event_rule.vb_crons_rules.name}"
+  rule      = "${element(aws_cloudwatch_event_rule.vb_crons_rules.*.name, count.index)}"
   role_arn  = "${aws_iam_role.vb_ecs_events.arn}"
 
   ecs_target = {
