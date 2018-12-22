@@ -75,8 +75,8 @@ resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
 {
   "containerOverrides": [
     {
-      "name": "${var.web_console_image}",
-      "command": "$[var.crons_tasks[count.index]]"
+      "name": "cron-${local.name}-${count.index}",
+      "command": ${jsonencode(split(" ", var.crons_tasks[count.index]))}
     }
   ]
 }

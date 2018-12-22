@@ -215,12 +215,12 @@ variable "crons_shedule" {
 }
 
 variable "crons_tasks" {
-  type = "map"
-  default = {
-    "0" = ["dotnet", "VideoBattle.Console.dll", "-gifts"]
-    "1" = ["dotnet", "VideoBattle.Console.dll", "-tickets"]
-    "2" = ["dotnet", "VideoBattle.Console.dll", "-challenges"]
-    "3" = ["dotnet", "VideoBattle.Console.dll", "-vb-recommendations"]
-    "4" = ["dotnet", "VideoBattle.Console.dll", "-user-recommendations"]
-  }
+  type = "list"
+  default = [
+    "dotnet VideoBattle.Console.dll -gifts",
+    "dotnet VideoBattle.Console.dll -tickets",
+    "dotnet VideoBattle.Console.dll -challenges",
+    "dotnet VideoBattle.Console.dll -vb-recommendations",
+    "dotnet VideoBattle.Console.dll -user-recommendations"
+  ]
 }
