@@ -141,7 +141,7 @@ resource "aws_autoscaling_group" "gitlab_runner_instance" {
 resource "aws_launch_configuration" "gitlab_runner_instance" {
   security_groups      = ["${aws_security_group.runner.id}"]
   key_name             = "${aws_key_pair.key.key_name}"
-  image_id             = "${lookup(var.amazon_optimized_amis, var.aws_region)}"
+  image_id             = "${data.aws_ami.ami.id}"
   user_data            = "${data.template_file.user_data.rendered}"
   instance_type        = "${var.instance_type}"
   iam_instance_profile = "${aws_iam_instance_profile.instance.name}"
@@ -214,4 +214,18 @@ resource "aws_iam_role_policy_attachment" "service_linked_role" {
 
   role       = "${aws_iam_role.instance.name}"
   policy_arn = "${aws_iam_policy.service_linked_role.arn}"
+}
+
+data "aws_ami" "ami" {
+  most_recent = true
+
+  filter {
+    name   = "owner-alias"
+    values = ["amazon"]
+  }
+
+  filter {
+    name   = "name"
+    values = ["amzn-ami-hvm-2017*-gp2"]
+  }
 }
