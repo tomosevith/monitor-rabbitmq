@@ -32,9 +32,8 @@ module "runner" {
   runners_off_peak_timezone   = "Europe/Amsterdam"
   runners_off_peak_idle_count = 0
   runners_off_peak_idle_time  = 60
-
   # working 9 to 5 :)
-  # runners_off_peak_periods = "[\"* * 0-9,17-23 * * mon-fri *\", \"* * * * * sat,sun *\"]"
+  runners_off_peak_periods = "[\"* * 0-9,17-23 * * mon-fri *\", \"* * * * * sat,sun *\"]"
 }
 
 resource "tls_private_key" "gitlab_runner" {
