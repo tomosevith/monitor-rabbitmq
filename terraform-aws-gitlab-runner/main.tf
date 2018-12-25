@@ -1,17 +1,17 @@
-# module "vpc" {
-#   source  = "terraform-aws-modules/vpc/aws"
-#   version = "1.37.0"
+module "vpc" {
+  source  = "terraform-aws-modules/vpc/aws"
+  version = "1.37.0"
 
-#   name = "vpc-${var.environment}"
-#   cidr = "10.1.0.0/16"
+  name = "vpc-${var.environment}"
+  cidr = "10.1.0.0/16"
 
-#   azs            = ["us-east-1a"]
-#   public_subnets = ["10.1.101.0/24"]
+  azs            = ["us-east-1a"]
+  public_subnets = ["10.1.101.0/24"]
 
-#   tags = {
-#     Environment = "${var.environment}"
-#   }
-# }
+  tags = {
+    Environment = "${var.environment}"
+  }
+}
 
 module "runner" {
   source = "./terraform-aws-gitlab-runner"
@@ -19,8 +19,9 @@ module "runner" {
   aws_region  = "${var.aws_region}"
   environment = "${var.environment}"
 
-  ssh_public_key = "${local_file.public_ssh_key.content}"
+  ssh_public_key = "${aws_key_pair.gitlab_runner.key_name}"
 
+  # key_name                    = "${aws_key_pair.gitlab_runner.key_name}"
   runners_use_private_address = false
 
   vpc_id                  = "${module.vpc.vpc_id}"
@@ -36,5 +37,15 @@ module "runner" {
   runners_off_peak_idle_time  = 60
 
   # working 9 to 5 :)
-  runners_off_peak_periods = "[\"* * 0-9,17-23 * * mon-fri *\", \"* * * * * sat,sun *\"]"
+  # runners_off_peak_periods = "[\"* * 0-9,17-23 * * mon-fri *\", \"* * * * * sat,sun *\"]"
+}
+
+resource "tls_private_key" "gitlab_runner" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+resource "aws_key_pair" "gitlab_runner" {
+  key_name   = "gitlab_runner"
+  public_key = "${tls_private_key.gitlab_runner.public_key_openssh}"
 }
