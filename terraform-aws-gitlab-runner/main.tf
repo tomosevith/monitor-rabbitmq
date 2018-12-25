@@ -5,7 +5,7 @@ module "vpc" {
   name = "vpc-${var.environment}"
   cidr = "10.1.0.0/16"
 
-  azs            = ["us-east-1a"]
+  azs            = ["eu-central-1a"]
   public_subnets = ["10.1.101.0/24"]
 
   tags = {

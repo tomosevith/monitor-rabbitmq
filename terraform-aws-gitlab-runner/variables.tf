@@ -1,19 +1,11 @@
 variable "aws_region" {
-  # description = "AWS region."  # type        = "string"  # default     = "us-east-1"
+  default = "eu-central-1"
 }
 
 variable "environment" {
   description = "A name that indentifies the environment, will used as prefix and for taggin."
   default     = "ci-runners"
   type        = "string"
-}
-
-variable "public_ssh_key_filename" {
-  default = "generated/id_rsa.pub"
-}
-
-variable "private_ssh_key_filename" {
-  default = "generated/id_rsa"
 }
 
 variable "runner_name" {
