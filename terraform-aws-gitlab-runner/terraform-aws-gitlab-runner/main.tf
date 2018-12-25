@@ -1,7 +1,7 @@
-resource "aws_key_pair" "key" {
-  key_name   = "${var.environment}-gitlab-runner"
-  public_key = "${var.ssh_public_key}"
-}
+#resource "aws_key_pair" "key" {
+#  key_name   = "${var.environment}-gitlab-runner"
+#  public_key = "${var.ssh_public_key}"
+#}
 
 resource "aws_security_group" "runner" {
   name_prefix = "${var.environment}-security-group"
@@ -140,7 +140,7 @@ resource "aws_autoscaling_group" "gitlab_runner_instance" {
 
 resource "aws_launch_configuration" "gitlab_runner_instance" {
   security_groups      = ["${aws_security_group.runner.id}"]
-  key_name             = "${aws_key_pair.key.key_name}"
+  key_name             = "${var.key_name}"
   image_id             = "${data.aws_ami.ami.id}"
   user_data            = "${data.template_file.user_data.rendered}"
   instance_type        = "${var.instance_type}"

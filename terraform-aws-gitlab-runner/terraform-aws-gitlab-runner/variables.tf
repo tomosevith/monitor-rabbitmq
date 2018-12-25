@@ -56,10 +56,12 @@ variable "instance_type" {
 #   }
 # }
 
-variable "ssh_public_key" {
-  description = "Public SSH key used for the gitlab-runner ec2 instance."
-  type        = "string"
-}
+variable "key_name" {}
+
+# variable "ssh_public_key" {
+#   description = "Public SSH key used for the gitlab-runner ec2 instance."
+#   type        = "string"
+# }
 
 variable "docker_machine_instance_type" {
   description = "Instance type used for the instances hosting docker-machine."
