@@ -224,3 +224,7 @@ variable "crons_tasks" {
     "dotnet VideoBattle.Console.dll -user-recommendations"
   ]
 }
+
+variable "http_redirects" {
+  default = ["beta.playandplay.ru", "playandplay.ru"]
+}

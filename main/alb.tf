@@ -2,6 +2,7 @@ resource "aws_alb" "alb" {
   name = "${local.name}"
 
   #internal        = true
+  idle_timeout    = 600
   security_groups = ["${module.security_groups.alb_id}"]
   subnets         = ["${module.vpc.public_subnets}"]
 
@@ -34,6 +35,48 @@ resource "aws_alb_listener" "alb_listener_http" {
   default_action {
     target_group_arn = "${module.web_front.target_group_arn}"
     type             = "forward"
+  }
+}
+
+##### RULES FOR ALB REDIRECTS
+resource "aws_alb_listener_rule" "http_redirects" {
+  count        = "${length(var.http_redirects)}"
+  listener_arn = "${aws_alb_listener.alb_listener_http.arn}"
+  priority     = "${11 + count.index}"
+
+  action {
+    type             = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+      host        = "${var.domain}"
+    }
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["${var.http_redirects[count.index]}"]
+  }
+}
+
+resource "aws_alb_listener_rule" "https_redirects" {
+  listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
+  priority     = 10
+
+  action {
+    type             = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+      host        = "${var.domain}"
+    }
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["playandplay.ru"]
   }
 }
 
