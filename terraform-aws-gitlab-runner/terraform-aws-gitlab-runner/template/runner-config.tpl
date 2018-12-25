@@ -38,7 +38,3 @@ check_interval = 0
     "amazonec2-root-size=${runners_root_size}", 
     "amazonec2-iam-instance-profile=${runners_iam_instance_profile_name}"]
    
-    OffPeakTimezone = "${runners_off_peak_timezone}"
-    OffPeakIdleCount = ${runners_off_peak_idle_count}
-    OffPeakIdleTime = ${runners_off_peak_idle_time}
-    OffPeakPeriods = ${runners_off_peak_periods}
