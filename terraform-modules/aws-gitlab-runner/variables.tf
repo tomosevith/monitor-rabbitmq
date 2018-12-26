@@ -65,7 +65,7 @@ variable "key_name" {}
 
 variable "docker_machine_instance_type" {
   description = "Instance type used for the instances hosting docker-machine."
-  default     = "t2.small"
+  default     = "t2.medium"
 }
 
 variable "docker_machine_spot_price_bid" {
