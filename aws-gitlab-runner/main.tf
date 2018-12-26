@@ -14,7 +14,7 @@ module "vpc" {
 }
 
 module "runner" {
-  source = "./terraform-aws-gitlab-runner"
+  source = "../terraform-modules/aws-gitlab-runner"
 
   aws_region  = "${var.aws_region}"
   environment = "${var.environment}"

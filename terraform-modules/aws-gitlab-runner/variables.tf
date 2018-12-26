@@ -105,7 +105,7 @@ variable "runners_concurrent" {
 
 variable "runners_idle_time" {
   description = "Idle time of the runners, will be used in the runner config.toml"
-  default     = 300
+  default     = 600
 }
 
 variable "runners_idle_count" {
