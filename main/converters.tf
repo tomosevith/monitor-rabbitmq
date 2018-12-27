@@ -26,7 +26,7 @@ module "converters_parameters" {
   service_name = "converters-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.converters_ssm_role.kms_key_id}"
-  count        = 11
+  count        = 10
 
   parameters = {
     "ConnectionStrings/DefaultConnection" = "Host=${module.rds.this_db_instance_address};Database=${local.database_name};Username=${local.database_user};Password=${local.database_password}"
@@ -36,8 +36,7 @@ module "converters_parameters" {
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
     "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_dns_name}"
-    "Cdn/UrlScheme/AwsRsaKeyId"           = "${aws_cloudfront_public_key.signed_link.id}"
-    "Cdn/UrlScheme/AwsRsaKey"             = "${tls_private_key.signed_link.private_key_pem}"
+    "Cdn/UrlScheme/AwsRsaKeyId"           = "${var.cloudfront_key_id}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
     "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
   }
@@ -49,9 +48,9 @@ module "converters_additional_parameters" {
   service_name = "converters-${local.name}"
   project_name = "${var.name}"
   kms_key_id   = "${module.web_front_ssm_role.kms_key_id}"
-  count        = "${length(var.converters_additional_parameters)}"
+  count        = "${length(var.additional_parameters)}"
 
-  parameters = "${var.converters_additional_parameters}"
+  parameters = "${var.additional_parameters}"
 
   tags = {
     Name        = "converters-${local.name}"

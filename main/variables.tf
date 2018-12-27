@@ -66,12 +66,6 @@ variable "zone_id" {
   default = "Z89Q1R238KKU8"
 }
 
-####### variables for console claster
-
-variable "console_backend_additional_parameters" {
-  default = {}
-}
-
 ####### variable for ecs cluster services 
 
 variable "web_front_image" {
@@ -86,7 +80,7 @@ variable "web_backend_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/backend"
 }
 
-variable "web_backend_additional_parameters" {
+variable "additional_parameters" {
   default = {}
 }
 
@@ -100,14 +94,6 @@ variable "console_crons_image" {
 
 variable "converters_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/videoconverter"
-}
-
-variable "converters_additional_parameters" {
-  default = {}
-}
-
-variable "web_console_additional_parameters" {
-  default = {}
 }
 
 ##### RDS INSTANCE
@@ -227,4 +213,12 @@ variable "crons_tasks" {
 
 variable "http_redirects" {
   default = ["beta.playandplay.ru", "playandplay.ru"]
+}
+
+variable "cloudfront_key_id" {
+  default = "APKAIOAJ3LPDRRTWRPKA"
+}
+
+variable "cloudfront_private_key" {
+  default = ""
 }
