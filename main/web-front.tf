@@ -6,7 +6,7 @@ module "web_front" {
   name                 = "${var.name}"
   service_name         = "front-${local.name}"
   service_port         = "80"
-  service_memory       = 400
+  service_memory       = 300
   min_capacity         = 2
   desired_count        = 2
   service_check_path   = "/"
