@@ -134,6 +134,28 @@ resource "aws_cloudfront_distribution" "cf" {
     max_ttl                = "${var.max_ttl}"
   }
 
+  ordered_cache_behavior {
+    path_pattern     = "*.mp4"
+    allowed_methods  = ["GET", "HEAD", "OPTIONS"]
+    cached_methods   = ["GET", "HEAD"]
+    target_origin_id = "${var.bucket_name}"
+
+    forwarded_values {
+      query_string = false
+
+      cookies {
+        forward = "none"
+      }
+    }
+
+    min_ttl                = 0
+    default_ttl            = 3600
+    max_ttl                = 86400
+    compress               = true
+    viewer_protocol_policy = "redirect-to-https"
+    trusted_signers        = ["self"]
+  }
+
   "restrictions" {
     "geo_restriction" {
       restriction_type = "none"

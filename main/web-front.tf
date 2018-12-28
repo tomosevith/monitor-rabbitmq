@@ -54,10 +54,6 @@ module "web_front_parameters" {
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${var.cloudfront_key_id}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
     "Cdn/BaseUrl"                         = "https://${var.domain_content}"
-
-    #cdn_sl_key       = ""
-    #minio_secret_key = ""
-    #s3_bucket        = ""
   }
 
   tags = {

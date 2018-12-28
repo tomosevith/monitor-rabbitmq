@@ -53,10 +53,6 @@ module "web_console_parameters" {
     "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_dns_name}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
     "Cdn/BaseUrl"                         = "https://${var.domain_content}"
-
-    #cdn_sl_key       = ""
-    #minio_secret_key = ""
-    #s3_bucket        = ""
   }
 
   tags = {
