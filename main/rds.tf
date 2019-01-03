@@ -39,7 +39,7 @@ module "rds" {
   # Snapshot name upon DB deletion
   final_snapshot_identifier = "${local.name}"
   # Database Deletion Protection
-  deletion_protection = false
+  deletion_protection = true
   tags = {
     Name        = "${local.name}"
     Environment = "${terraform.env}"
