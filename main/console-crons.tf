@@ -68,8 +68,8 @@ resource "aws_cloudwatch_event_target" "vb_ecs_scheduled_task" {
 
   ecs_target = {
     task_count          = 1
-    //task_definition_arn = "${module.web_console.task_definition_arn}"
-    task_definition_arn = "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-definition/${module.web_console.task_definition_family}"
+    task_definition_arn = "${module.web_console.task_definition_arn}"
+    //task_definition_arn = "arn:aws:ecs:${var.region}:${data.aws_caller_identity.current.account_id}:task-definition/${module.web_console.task_definition_family}"
   }
 
   input = <<DOC
