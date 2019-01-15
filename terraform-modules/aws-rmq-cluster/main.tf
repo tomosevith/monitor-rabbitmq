@@ -27,7 +27,7 @@ resource "aws_autoscaling_group" "rabbitmq" {
   health_check_type         = "ELB"
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.rabbitmq.name}"
-  load_balancers            = ["${aws_elb.elb.name}"]
+  load_balancers            = ["${aws_elb.elb.name}", "${aws_elb.elb_internal.name}"]
   vpc_zone_identifier       = ["${var.private_subnets}"]
 
   tag {
@@ -66,6 +66,32 @@ resource "aws_elb" "elb" {
     lb_port            = 443
     lb_protocol        = "https"
     ssl_certificate_id = "${var.ssl_certificate_arn}"
+  }
+
+  health_check {
+    interval            = 30
+    unhealthy_threshold = 10
+    healthy_threshold   = 2
+    timeout             = 3
+    target              = "TCP:5672"
+  }
+
+  subnets         = ["${var.public_subnets}"]
+  idle_timeout    = 3600
+  internal        = false
+  security_groups = ["${var.cluster_security_groups}"]
+
+  tags = "${var.tags}"
+}
+
+resource "aws_elb" "elb_internal" {
+  name = "${var.name}-internal"
+
+  listener {
+    instance_port     = 5672
+    instance_protocol = "tcp"
+    lb_port           = 5672
+    lb_protocol       = "tcp"
   }
 
   health_check {
