@@ -35,7 +35,7 @@ module "converters_parameters" {
     "RabbitMq/Password"                   = "${random_string.rmq_password.result}"
     "RabbitMq/VirtualHost"                = "/"
     "RabbitMq/Port"                       = "5672"
-    "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_dns_name}"
+    "RabbitMq/Hostname"                   = "${module.rmq.rabbitmq_internal_dns_name}"
     "Cdn/UrlScheme/AwsRsaKeyId"           = "${var.cloudfront_key_id}"
     "AWS/BucketName"                      = "${module.video.s3_bucket_id}"
     "Cdn/BaseUrl"                         = "https://${aws_route53_record.content.fqdn}"
@@ -110,7 +110,7 @@ resource "aws_cloudwatch_log_group" "converters" {
 
 resource "aws_autoscaling_group" "converters" {
   name                  = "converters-${local.name}"
-  vpc_zone_identifier   = ["${module.vpc.private_subnets}"]
+  vpc_zone_identifier   = ["${module.vpc.public_subnets}"]
   min_size              = "${var.converters_asg_min}"
   max_size              = "${var.converters_asg_max}"
   desired_capacity      = "${var.converters_asg_desired}"
