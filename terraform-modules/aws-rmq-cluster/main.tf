@@ -102,9 +102,11 @@ resource "aws_elb" "elb_internal" {
     target              = "TCP:5672"
   }
 
-  subnets         = ["${var.public_subnets}"]
+  subnets         = ["${var.private_subnets}"]
   idle_timeout    = 3600
-  internal        = false
+  internal        = true
+  connection_draining = true
+  cross_zone_load_balancing = false
   security_groups = ["${var.cluster_security_groups}"]
 
   tags = "${var.tags}"
