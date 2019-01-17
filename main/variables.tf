@@ -21,7 +21,7 @@ variable "aws_asg_name" {
 }
 
 variable "converters_instance_type" {
-  default = "t2.small"
+  default = "t2.medium"
 }
 
 variable "converters_asg_min" {

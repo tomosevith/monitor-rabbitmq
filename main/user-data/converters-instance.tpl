@@ -17,5 +17,5 @@ eval $(/usr/local/bin/aws ecr get-login --no-include-email --region ${region})
 
 docker pull ${converters_image}
 
-docker run -d --restart=always --name=${service_name} --network=host --log-opt max-size=500m -e SSM_PROJECT_NAME -e SSM_SERVICE_NAME -e USE_AWS_PARAMETER_STORE -e AWS_DEFAULT_REGION -e ASPNETCORE_ENVIRONMENT ${converters_image} bash -c "dotnet VideoBattle.VideoProcessing.Console.dll"
+docker run -d --restart=always --name=${service_name} --network=host --log-driver=awslogs --log-opt awslogs-region=${region} --log-opt awslogs-group=${log_group_name} --log-opt awslogs-stream=${service_name} --log-opt awslogs-create-group=true -e SSM_PROJECT_NAME -e SSM_SERVICE_NAME -e USE_AWS_PARAMETER_STORE -e AWS_DEFAULT_REGION -e ASPNETCORE_ENVIRONMENT ${converters_image} bash -c "dotnet VideoBattle.VideoProcessing.Console.dll"
 
