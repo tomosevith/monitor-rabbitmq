@@ -5,6 +5,8 @@ yum -y install python-pip
 pip-python install awscli
 usermod -a -G docker ec2-user
 service docker start
+stop ecs
+docker rm -f ecs-agent
 
 export SSM_PROJECT_NAME=${project_name}
 export SSM_SERVICE_NAME=${service_name}
