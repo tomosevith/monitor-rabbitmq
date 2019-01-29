@@ -7,23 +7,23 @@ from utils.logging import logger as log
 
 client = boto3.client('cloudwatch')
 
-if 'RABBIT_MQ_URL' not in os.environ:
+if 'RABBITMQ_URL' not in os.environ:
     URL = 'http://localhost:15672'
     log.info("Using default Admin URL %s", URL)
 else:
     URL = os.environ['RABBITMQ_URL']
 
-if 'RABBIT_MQ_USERNAME' not in os.environ:
+if 'RABBITMQ_USERNAME' not in os.environ:
     USERNAME = 'guest'
     log.info("Using default USERNAME %s", USERNAME)
 else:
     USERNAME = os.environ['RABBITMQ_USERNAME']
 
-if 'RABBIT_MQ_PASSWORD' not in os.environ:
+if 'RABBITMQ_PASSWORD' not in os.environ:
     PASSWORD = 'guest'
     log.info("Using default PASSWORD")
 else:
-    PASSWORD = os.environ['PASSWORD']
+    PASSWORD = os.environ['RABBITMQ_PASSWORD']
 
 requestURL = urljoin(URL, '/api/queues')
 
