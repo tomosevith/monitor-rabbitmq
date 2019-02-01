@@ -44,7 +44,7 @@ module "ecs_cluster" {
   public_ip         = false
   ebs_optimized     = false
   security_group_id = "${module.security_groups.ecs_id}"
-  subnet_id         = "${module.vpc.private_subnets}"
+  subnet_id         = "${module.vpc.public_subnets}"
   aws_asg_name      = "ecs-${local.name}"
   user_data         = "${data.template_file.aws_ecs.rendered}"
 }
