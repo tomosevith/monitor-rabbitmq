@@ -88,6 +88,10 @@ variable "web_console_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console"
 }
 
+variable "bot_image" {
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/bot"
+}
+
 variable "console_crons_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console_crons"
 }
