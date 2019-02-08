@@ -61,8 +61,9 @@ resource "aws_alb_listener_rule" "http_redirects" {
 }
 
 resource "aws_alb_listener_rule" "https_redirects" {
+  count        = "${length(var.https_redirects)}"
   listener_arn = "${aws_alb_listener.alb_listener_https.arn}"
-  priority     = 10
+  priority     = "${10 + count.index}"
 
   action {
     type             = "redirect"
@@ -76,10 +77,29 @@ resource "aws_alb_listener_rule" "https_redirects" {
 
   condition {
     field  = "host-header"
-    values = ["playandplay.ru"]
+    values = ["${var.https_redirects[count.index]}"]
   }
 }
 
+resource "aws_alb_listener_rule" "admin_http_redirects" {
+  listener_arn = "${aws_alb_listener.alb_listener_http.arn}"
+  priority     = 8
+
+  action {
+    type             = "redirect"
+    redirect {
+      port        = "443"
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+      host        = "admin.playandplay.ru"
+    }
+  }
+
+  condition {
+    field  = "host-header"
+    values = ["admin.playandplay.ru"]
+  }
+}
 ##### RULES FOR ALB TO ROUTE TRAFFIC TO THE SERVICES BY HOSTNAMES
 
 module "web_front_alb_routes" {

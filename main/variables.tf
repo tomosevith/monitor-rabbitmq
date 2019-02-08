@@ -219,6 +219,10 @@ variable "http_redirects" {
   default = ["beta.playandplay.ru", "playandplay.ru"]
 }
 
+variable "https_redirects" {
+  default = ["playandplay.ru", "www.playandplay.ru"]
+}
+
 variable "cloudfront_key_id" {
   default = "APKAIOAJ3LPDRRTWRPKA"
 }
