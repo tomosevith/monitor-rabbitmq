@@ -196,7 +196,7 @@ variable "back_jwt_key" {}
 variable "crons_shedule" {
   type = "map"
   default = {
-    "0" = "cron(0 16 * * ? *)"
+    "0" = "cron(50 15 * * ? *)"
     "1" = "cron(0 5 * * ? *)"
     "2" = "cron(*/5 * * * ? *)"
     "3" = "cron(30 23 * * ? 0)"
