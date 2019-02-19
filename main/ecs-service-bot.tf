@@ -6,8 +6,8 @@ module "bot" {
   name                 = "${var.name}"
   service_name         = "bot-${local.name}"
   service_memory       = 100
-  desired_count        = 0
-  min_capacity         = 0
+  desired_count        = 1
+  min_capacity         = 1
   service_cmd          = "dotnet,VideoBattle.Bot.dll"
   service_entrypoint   = ""
   cluster_id           = "${module.ecs_cluster.cluster_id}"
