@@ -88,6 +88,10 @@ variable "web_console_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console"
 }
 
+variable "bot_image" {
+  default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/bot"
+}
+
 variable "console_crons_image" {
   default = "132867155609.dkr.ecr.eu-central-1.amazonaws.com/console_crons"
 }
@@ -192,7 +196,7 @@ variable "back_jwt_key" {}
 variable "crons_shedule" {
   type = "map"
   default = {
-    "0" = "cron(0 16 * * ? *)"
+    "0" = "cron(50 15 * * ? *)"
     "1" = "cron(0 5 * * ? *)"
     "2" = "cron(*/5 * * * ? *)"
     "3" = "cron(30 23 * * ? 0)"
@@ -213,6 +217,10 @@ variable "crons_tasks" {
 
 variable "http_redirects" {
   default = ["beta.playandplay.ru", "playandplay.ru"]
+}
+
+variable "https_redirects" {
+  default = ["playandplay.ru", "www.playandplay.ru"]
 }
 
 variable "cloudfront_key_id" {

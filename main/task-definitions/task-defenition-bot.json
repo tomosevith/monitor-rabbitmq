@@ -1,0 +1,66 @@
+ [
+    {
+      "volumesFrom": [],
+      "memory": ${memory},
+      "logConfiguration": {
+          "logDriver": "awslogs",
+          "options": {
+              "awslogs-group": "${log_group_name}",
+              "awslogs-stream-prefix": "${service_name}",
+              "awslogs-region": "${region}"
+          }
+      },
+      "essential": true,
+      "entryPoint": ${entrypoint},
+      "mountPoints": [],
+      "name": "${service_name}",
+      "dockerSecurityOptions": null,
+      "environment": [
+        {
+          "name": "SSM_PROJECT_NAME",
+          "value": "${name}"
+        },
+        {
+          "name": "SSM_SERVICE_NAME",
+          "value": "${service_name}"
+        },
+        {
+          "name": "USE_AWS_PARAMETER_STORE",
+          "value": "1"
+        },
+        {
+          "name": "ASPNETCORE_ENVIRONMENT",
+          "value": "Production"
+        },
+        {
+          "name": "AWS_DEFAULT_REGION",
+          "value": "${region}"
+        },
+        {
+          "name": "AWS_REGION",
+          "value": "${region}"
+        },
+        {
+          "name": "KMS_KEY_ALIAS",
+          "value": "${kms_key_alias}"
+        }
+      ],
+      "links": null,
+      "workingDirectory": null,
+      "readonlyRootFilesystem": null,
+      "image": "${image_url}",
+      "command": ${command},
+      "user": null,
+      "dockerLabels": null,
+      "cpu": 0,
+      "privileged": null,
+      "memoryReservation": null,
+      "ulimits": [
+        {
+          "name": "nofile",
+          "softLimit": 16384,
+          "hardLimit": 16384
+        }
+      ]
+    }
+  ]
