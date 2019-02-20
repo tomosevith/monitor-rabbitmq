@@ -29,8 +29,10 @@ module "rmq" {
   environment             = "${terraform.env}"
   region                  = "${var.region}"
   vpc_id                  = "${module.vpc.vpc_id}"
-  private_subnets         = "${module.vpc.private_subnets}"
-  public_subnets          = "${module.vpc.public_subnets}"
+  count                   = 3
+  node_subnets            = "${module.vpc.public_subnets}"
+  internal_subnets        = "${module.vpc.private_subnets}"
+  external_subnets        = "${module.vpc.public_subnets}"
   cluster_security_groups = ["${module.security_groups.ssh_id}", "${module.security_groups.rmq_elb_id}"]
   node_security_groups    = ["${module.security_groups.rmq_node_id}"]
   instance_type           = "${var.rmq_instance_type}"

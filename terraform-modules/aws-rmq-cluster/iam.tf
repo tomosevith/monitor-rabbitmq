@@ -26,6 +26,7 @@ resource "aws_iam_role_policy" "policy" {
             "Effect": "Allow",
             "Action": [
                 "autoscaling:DescribeAutoScalingInstances",
+                "cloudwatch:PutMetricData",
                 "ec2:DescribeInstances"
             ],
             "Resource": [

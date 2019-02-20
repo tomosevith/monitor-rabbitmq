@@ -25,11 +25,15 @@ variable "count" {
   default     = 2
 }
 
-variable "private_subnets" {
+variable "node_subnets" {
   type = "list"
 }
 
-variable "public_subnets" {
+variable "external_subnets" {
+  type = "list"
+}
+
+variable "internal_subnets" {
   type = "list"
 }
 

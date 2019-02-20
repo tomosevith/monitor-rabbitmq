@@ -28,7 +28,8 @@ resource "aws_autoscaling_group" "rabbitmq" {
   force_delete              = true
   launch_configuration      = "${aws_launch_configuration.rabbitmq.name}"
   load_balancers            = ["${aws_elb.elb.name}", "${aws_elb.elb_internal.name}"]
-  vpc_zone_identifier       = ["${var.private_subnets}"]
+  vpc_zone_identifier       = ["${var.node_subnets}"]
+  termination_policies      = ["OldestInstance", "OldestLaunchConfiguration"]
 
   tag {
     key                 = "Environment"
@@ -76,7 +77,7 @@ resource "aws_elb" "elb" {
     target              = "TCP:5672"
   }
 
-  subnets         = ["${var.public_subnets}"]
+  subnets         = ["${var.external_subnets}"]
   idle_timeout    = 3600
   internal        = false
   security_groups = ["${var.cluster_security_groups}"]
@@ -102,7 +103,7 @@ resource "aws_elb" "elb_internal" {
     target              = "TCP:5672"
   }
 
-  subnets         = ["${var.private_subnets}"]
+  subnets         = ["${var.internal_subnets}"]
   idle_timeout    = 3600
   internal        = true
   connection_draining = true

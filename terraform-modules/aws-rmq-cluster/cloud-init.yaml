@@ -44,7 +44,4 @@ runcmd:
   - docker run -d --restart=always --name rabbitmq --ulimit nofile=262144:262144 --net=host -e RABBITMQ_ERLANG_COOKIE='${secret_cookie}' -e RABBITMQ_USE_LONGNAME=true -v /root/data:/var/lib/rabbitmq -v /root/conf/:/etc/rabbitmq -v /root/bin:/tmp/bin rabbitmq:3-management
   - sleep 60
   - bash /root/configure.sh
-  - docker run --restart=always -d --name rabbitmq-exporter --net=container:rabbitmq -e RABBIT_CAPABILITIES=bert,no_sort -e PUBLISH_PORT=9419 -e RABBIT_USER=admin -e RABBIT_PASSWORD=${admin_password} kbudde/rabbitmq-exporter
-  - docker run -d --restart=always --network=host --name=nodeexporter --user=root --privileged=true -v /proc:/host/proc:ro -v /sys:/host/sys:ro -v /:/rootfs:ro prom/node-exporter:v0.16.0 --path.procfs=/host/proc --path.sysfs=/host/sys --collector.filesystem.ignored-mount-points="^/\(sys|proc|dev|host|etc\)\($$|/\)"
-  - docker run -d --restart=always --network=host --name=cadvisor -v /:/rootfs:ro -v /var/run:/var/run:rw -v /sys:/sys:ro -v /var/lib/docker/:/var/lib/docker:ro  -v /cgroup:/sys/fs/cgroup:ro google/cadvisor:v0.30.0
-  - docker run -d --restart=always --net=host --name rmq-cw-metrics -e AWS_DEFAULT_REGION=eu-central-1 -e RABBITMQ_PASSWORD=${admin_password} -e RABBITMQ_USERNAME=admin  tomosevith/monitor-rabbitmq:latest
+  - docker run -d --restart=always --net=host --name rmq-cw-metrics -e AWS_DEFAULT_REGION=${region} -e RABBITMQ_PASSWORD=${admin_password} -e RABBITMQ_USERNAME=admin  tomosevith/monitor-rabbitmq:latest
