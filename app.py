@@ -36,7 +36,7 @@ def put_metric(metrics):
     )
 
 
-while (true):
+while True:
     if __name__ == '__main__':
         total_messages = 0
         resp = requests.get(requestURL, auth=HTTPBasicAuth(USERNAME, PASSWORD))
